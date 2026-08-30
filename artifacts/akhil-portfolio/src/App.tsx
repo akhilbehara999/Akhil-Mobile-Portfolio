@@ -23,8 +23,11 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { SectionScreen } from './components/SectionScreen';
+import { WorkspaceScreen, type SectionId } from './components/WorkspaceScreen';
 
-type Screen = 'home' | 'workspace' | 'contact';
+type Screen = 'home' | 'workspace' | 'contact' | 'section';
+type NavScreen = Exclude<Screen, 'section'>;
 
 const journeyData = [
   { label: 'Year 1', value: 60 },
@@ -47,7 +50,7 @@ const skillData = [
   { name: 'Web', value: 8, color: '#F0A060' },
 ];
 
-const navItems: Array<{ id: Screen; label: string; icon: typeof HomeIcon }> = [
+const navItems: Array<{ id: NavScreen; label: string; icon: typeof HomeIcon }> = [
   { id: 'home', label: 'Home', icon: HomeIcon },
   { id: 'workspace', label: 'Workspace', icon: BriefcaseBusiness },
   { id: 'contact', label: 'Contact', icon: Mail },
@@ -318,8 +321,7 @@ function HomeScreen({ onExplore }: { onExplore: () => void }) {
   );
 }
 
-function ComingSoonScreen({ screen, onBack }: { screen: Exclude<Screen, 'home'>; onBack: () => void }) {
-  const isWorkspace = screen === 'workspace';
+function ComingSoonScreen({ screen, onBack }: { screen: 'contact'; onBack: () => void }) {
   return (
     <motion.main
       key={screen}
@@ -342,7 +344,7 @@ function ComingSoonScreen({ screen, onBack }: { screen: Exclude<Screen, 'home'>;
         </button>
         <div className="status-pill">
           <span className="status-dot" aria-hidden="true" />
-          {isWorkspace ? 'Workspace' : 'Say hello'}
+          Say hello
         </div>
       </header>
       <div className="flex flex-1 flex-col items-center justify-center pb-28 text-center">
@@ -353,7 +355,7 @@ function ComingSoonScreen({ screen, onBack }: { screen: Exclude<Screen, 'home'>;
           transition={{ duration: 0.4, delay: 0.1 }}
           aria-hidden="true"
         >
-          {isWorkspace ? <BriefcaseBusiness size={25} strokeWidth={1.7} /> : <Send size={24} strokeWidth={1.7} />}
+          <Send size={24} strokeWidth={1.7} />
         </motion.div>
         <p className="eyebrow">In progress</p>
         <h1 className="coming-title">Coming Soon</h1>
@@ -373,16 +375,16 @@ function ComingSoonScreen({ screen, onBack }: { screen: Exclude<Screen, 'home'>;
   );
 }
 
-function MobileNav({ screen, onNavigate }: { screen: Screen; onNavigate: (screen: Screen) => void }) {
+function MobileNav({ screen, onNavigate }: { screen: Screen; onNavigate: (screen: NavScreen) => void }) {
   return (
     <nav className="bottom-nav phone-only" aria-label="Primary navigation" data-testid="navigation-bottom">
       {navItems.map(({ id, label, icon: Icon }) => (
         <button
           type="button"
           key={id}
-          className={`nav-item ${screen === id ? 'nav-item-active' : ''}`}
-          onClick={() => onNavigate(id)}
-          aria-current={screen === id ? 'page' : undefined}
+           className={`nav-item ${screen === id || (screen === 'section' && id === 'workspace') ? 'nav-item-active' : ''}`}
+           onClick={() => onNavigate(id)}
+           aria-current={screen === id || (screen === 'section' && id === 'workspace') ? 'page' : undefined}
           data-testid={`button-nav-${id}`}
         >
           <Icon className="nav-icon" size={19} strokeWidth={screen === id ? 2.2 : 1.7} />
@@ -423,18 +425,33 @@ function useIsDesktop() {
 
 function MobileExperience() {
   const [screen, setScreen] = useState<Screen>('home');
-  const navigate = (nextScreen: Screen) => {
+  const [currentSection, setCurrentSection] = useState<SectionId | null>(null);
+
+  const navigate = (nextScreen: NavScreen) => {
     window.scrollTo(0, 0);
+    setCurrentSection(null);
     setScreen(nextScreen);
   };
+
+  const openSection = (sectionId: SectionId) => {
+    window.scrollTo(0, 0);
+    setCurrentSection(sectionId);
+    setScreen('section');
+  };
+
+  const backToWorkspace = () => navigate('workspace');
 
   return (
     <div className="phone-only phone-canvas" data-testid="mobile-experience">
       <AnimatePresence mode="wait" initial={false}>
         {screen === 'home' ? (
           <HomeScreen key="home" onExplore={() => navigate('workspace')} />
+        ) : screen === 'workspace' ? (
+          <WorkspaceScreen key="workspace" onCardTap={openSection} />
+        ) : screen === 'section' && currentSection ? (
+          <SectionScreen key={`section-${currentSection}`} sectionId={currentSection} onBack={backToWorkspace} />
         ) : (
-          <ComingSoonScreen key={screen} screen={screen} onBack={() => navigate('home')} />
+          <ComingSoonScreen key="contact" screen="contact" onBack={() => navigate('home')} />
         )}
       </AnimatePresence>
       <MobileNav screen={screen} onNavigate={navigate} />

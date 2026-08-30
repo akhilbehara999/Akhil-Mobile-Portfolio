@@ -1,0 +1,288 @@
+You are adding a Workspace screen to the existing Android-style portfolio app.
+This screen is reached when the user taps "Workspace" in the bottom navigation.
+It must feel like navigating to a new section inside the same Android app — 
+not like a new webpage loading.
+
+Everything must stay consistent with the already-built Home screen:
+same color system, same fonts, same floating bottom nav, same animation language.
+
+══════════════════════════════════════════
+WHAT ALREADY EXISTS — DO NOT CHANGE
+══════════════════════════════════════════
+
+- App.tsx already manages currentScreen state: "home" | "workspace" | "contact"
+- BottomNav.tsx already exists and is shared across all screens
+- theme.ts already defines all colors and typography
+- ComingSoon.tsx already exists for tablet/desktop viewports
+- All Tailwind config, font imports, and Framer Motion are already installed
+
+You are ONLY adding:
+  src/components/WorkspaceScreen.tsx       — the main Workspace screen
+  src/components/SectionScreen.tsx         — the full-screen view opened when a card is tapped
+  src/components/workspace/WorkspaceCard.tsx — individual card component
+
+Update App.tsx to handle a new state:
+  currentScreen: "home" | "workspace" | "contact" | "section"
+  currentSection: "about" | "skills" | "education" | "projects" | "experience" | "certificates" | null
+
+══════════════════════════════════════════
+RESPONSIVE BEHAVIOR — UNCHANGED RULE
+══════════════════════════════════════════
+
+Tablet/desktop (min-width: 769px) still shows only the Coming Soon screen.
+Workspace screen only renders on mobile (max-width: 768px).
+
+══════════════════════════════════════════
+COLOR & TYPOGRAPHY — SAME AS HOME
+══════════════════════════════════════════
+
+Background:       #F8F5F2
+Surface:          #FFFFFF
+Surface Muted:    #F2EDE8
+Primary:          #AA2222
+Primary Light:    #CC3333
+Accent:           #E07020
+Text Primary:     #1A1A1A
+Text Secondary:   #5C5C5C
+Text Muted:       #9A9A9A
+Border:           #E8E2DC
+
+Fonts: Inter (body) + Space Grotesk (headings) — already loaded.
+
+══════════════════════════════════════════
+WORKSPACE SCREEN — FULL SPECIFICATION
+══════════════════════════════════════════
+
+Layout: Scrollable full-screen column.
+        Outer horizontal padding: 24px left/right.
+        Bottom padding: 100px (clears floating nav).
+        Fixed floating BottomNav at bottom — Workspace tab is active.
+
+──────────────────────────────────────────
+SECTION 1 — HEADER
+──────────────────────────────────────────
+
+Padding-top: 52px.
+
+Contents (top to bottom):
+
+Row 1 — Icon + Title on same line:
+  Left: A 40px × 40px circle
+        Background: rgba(170, 34, 34, 0.10)
+        Border: 1.5px solid #AA2222
+        Inside: Lucide "LayoutGrid" icon, 20px, stroke color #AA2222
+  Right of icon (8px gap): "Workspace" in Space Grotesk 28px bold, Text Primary
+
+Row 2 — Description (margin-top 10px):
+  Two lines of text in Inter 14px, Text Secondary:
+    Line 1: "Everything I've built, learned, and worked on."
+    Line 2: "Tap any section to explore in detail."
+
+Row 3 — Thin divider line (margin-top 20px):
+  Full width, 1px, color Border (#E8E2DC)
+
+Animation (Framer Motion):
+  Icon circle: scale 0.8→1.0 + fade, 0ms delay, 350ms duration
+  Title: fade up, 80ms delay
+  Description: fade up, 160ms delay
+  Divider: fade in, 240ms delay
+
+──────────────────────────────────────────
+SECTION 2 — 2×3 CARD GRID
+──────────────────────────────────────────
+
+Margin-top: 20px
+Layout: CSS Grid, 2 columns, gap 12px
+All 6 cards in this order (left→right, top→bottom):
+  [About]       [Skills]
+  [Education]   [Projects]
+  [Experience]  [Certificates]
+
+──────────────────────────────────────────
+CARD SPECIFICATION — WorkspaceCard.tsx
+──────────────────────────────────────────
+
+Each card is identical in structure, different in content.
+
+Card container:
+  Background: #FFFFFF
+  Border: 1px solid #E8E2DC
+  Border-radius: 16px
+  Padding: 16px
+  Shadow: 0 2px 10px rgba(0,0,0,0.06)
+  Width: 100% (fills its grid column)
+  Min-height: 140px
+  Cursor: pointer
+  Position: relative
+
+Card contents (top to bottom):
+
+1. Icon circle:
+   Size: 36px × 36px
+   Border-radius: 50%
+   Background: rgba(170,34,34,0.08)
+   Border: 1.5px solid rgba(170,34,34,0.25)
+   Inside: Lucide icon, 18px, stroke #AA2222
+   Margin-bottom: 12px
+
+2. Title:
+   Space Grotesk 15px, weight 600, Text Primary
+   Margin-bottom: 6px
+
+3. Description (2 lines):
+   Inter 12px, Text Muted, line-height 1.5
+   Max 2 lines — use CSS line-clamp 2
+
+4. CTA row (at bottom of card, margin-top: auto):
+   "Explore →" text
+   Inter 12px, weight 500, color #AA2222
+   Align: flex-start
+
+Card interaction:
+  whileHover (Framer Motion): scale 1.02, shadow deepens slightly
+  whileTap: scale 0.97
+  On tap: call onTap(sectionId) which sets currentScreen to "section"
+           and currentSection to the card's id
+
+Card stagger animation on mount:
+  Cards animate in one by one with 60ms stagger between each
+  Each: opacity 0→1, y: 16→0, duration 350ms
+
+──────────────────────────────────────────
+CARD DATA — hardcode in WorkspaceScreen.tsx
+──────────────────────────────────────────
+
+const workspaceCards = [
+  {
+    id: "about",
+    title: "About",
+    icon: "User",           // Lucide icon name
+    description: "Who I am, what drives me, and the story behind the work.",
+  },
+  {
+    id: "skills",
+    title: "Skills",
+    icon: "Code2",
+    description: "Languages, tools, and technologies I work with.",
+  },
+  {
+    id: "education",
+    title: "Education",
+    icon: "GraduationCap",
+    description: "My academic background and what I've studied.",
+  },
+  {
+    id: "projects",
+    title: "Projects",
+    icon: "FolderOpen",
+    description: "Real things I've built — from idea to working system.",
+  },
+  {
+    id: "experience",
+    title: "Experience",
+    icon: "Briefcase",
+    description: "Work, internships, and hands-on learning outside class.",
+  },
+  {
+    id: "certificates",
+    title: "Certificates",
+    icon: "Award",
+    description: "Courses completed and credentials earned.",
+  },
+]
+
+══════════════════════════════════════════
+SECTION SCREEN — SectionScreen.tsx
+══════════════════════════════════════════
+
+This screen opens when any card is tapped.
+It replaces the Workspace screen entirely (full viewport).
+The floating BottomNav remains visible at the bottom.
+
+Purpose: This is a placeholder screen for now.
+         Each section (About, Skills, etc.) will be fully designed later.
+         For now, show a polished "In Progress" state.
+
+Layout: Full screen, scrollable, same padding as Workspace (24px sides, 100px bottom)
+
+Contents:
+
+1. Back button row (padding-top: 52px):
+   "← Workspace" — Inter 13px, color #AA2222, tappable
+   On tap: sets currentScreen back to "workspace", currentSection to null
+
+2. Section header (margin-top: 20px):
+   Same pattern as Workspace header:
+     - Icon circle (same style, same icon as the card that was tapped)
+     - Title in Space Grotesk 28px bold (the section name)
+   On same row, flex, align-items center, gap 10px
+
+3. Thin divider (margin-top: 16px)
+
+4. "In Progress" placeholder content (margin-top: 28px):
+
+   A centered card:
+     Background: #F2EDE8
+     Border: 1px dashed #E8E2DC
+     Border-radius: 16px
+     Padding: 32px 24px
+     Text-align: center
+
+     Inside:
+       - Lucide "Construction" icon, 32px, color #AA2222, centered
+       - Title: "Being crafted" — Space Grotesk 18px bold, margin-top 14px
+       - Subtitle: "This section is being designed with care. Check back soon."
+                   Inter 13px, Text Muted, max-width 200px, centered, margin-top 8px
+       - Small animated shimmer bar (same as Coming Soon screen):
+         60px wide, 3px tall, background gradient #AA2222→#E07020,
+         centered, margin-top 20px, shimmer animation loop
+
+5. Below placeholder (margin-top: 24px):
+   "← Back to Workspace" — same style as the top back button, centered
+
+Animation on mount:
+  Back button: fade in, 0ms
+  Header: fade up, 80ms
+  Divider: fade in, 160ms
+  Placeholder card: scale 0.95→1.0 + fade, 240ms
+
+══════════════════════════════════════════
+NAVIGATION STATE — App.tsx UPDATE
+══════════════════════════════════════════
+
+type Screen = "home" | "workspace" | "contact" | "section"
+type SectionId = "about" | "skills" | "education" | "projects" | "experience" | "certificates" | null
+
+const [currentScreen, setCurrentScreen] = useState<Screen>("home")
+const [currentSection, setCurrentSection] = useState<SectionId>(null)
+
+Rendering logic:
+  if viewport >= 769px → <ComingSoon type="tablet" />
+
+  else if currentScreen === "home" → <HomeScreen />
+  else if currentScreen === "workspace" → <WorkspaceScreen onCardTap={(id) => { setCurrentSection(id); setCurrentScreen("section") }} />
+  else if currentScreen === "section" → <SectionScreen sectionId={currentSection} onBack={() => setCurrentScreen("workspace")} />
+  else if currentScreen === "contact" → <ComingSoon type="contact" onBack={() => setCurrentScreen("home")} />
+
+BottomNav behavior on Workspace and Section screens:
+  - Workspace screen: Workspace tab is active
+  - Section screen: Workspace tab remains active (still inside workspace flow)
+  - Tapping Home on nav from Section: goes to home, clears currentSection
+  - Tapping Contact on nav from anywhere: goes to Contact Coming Soon
+
+══════════════════════════════════════════
+QA CHECKLIST
+══════════════════════════════════════════
+
+□ Workspace nav tab is active (red indicator) on both WorkspaceScreen and SectionScreen
+□ All 6 cards render in correct 2×3 grid order
+□ Cards stagger-animate in on Workspace mount
+□ Each card's Lucide icon is correct (User, Code2, GraduationCap, FolderOpen, Briefcase, Award)
+□ Tapping any card opens SectionScreen with correct title and icon
+□ "← Workspace" back button returns to WorkspaceScreen
+□ SectionScreen shows the correct section name and icon (matching the tapped card)
+□ Floating BottomNav stays visible on WorkspaceScreen and SectionScreen
+□ No horizontal overflow at 390px viewport width
+□ Tablet/desktop still shows only ComingSoon screen — Workspace content never visible there
+□ Home screen is completely unchanged
+□ All colors match the defined system — no default blues or grays from Lucide defaults
