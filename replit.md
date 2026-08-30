@@ -1,6 +1,6 @@
-# [Project name]
+# Akhil Portfolio
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+An Android-style personal portfolio that introduces Akhil through an animated mobile-first experience across data, AI, and engineering.
 
 ## Run & Operate
 
@@ -22,15 +22,21 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/akhil-portfolio/src/App.tsx` — responsive screen state, charts, navigation, and Coming Soon views
+- `artifacts/akhil-portfolio/src/index.css` — portfolio color tokens, typography, responsive layout, and motion
+- `artifacts/akhil-portfolio` — the deployable React + Vite portfolio artifact
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The portfolio is frontend-only with hardcoded showcase data; the API server remains available for future projects.
+- The app conditionally mounts either the mobile experience or desktop Coming Soon screen so Recharts never measures hidden containers.
+- Navigation uses local React state instead of a router because the three screens are intentionally a single app surface.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Mobile visitors get an Android-inspired portfolio home screen with animated journey, projects, and skills visualizations.
+- Workspace and Contact are represented as polished Coming Soon states with return-to-home interactions.
+- Tablet and desktop visitors see a centered Coming Soon message for the future full experience.
 
 ## User preferences
 

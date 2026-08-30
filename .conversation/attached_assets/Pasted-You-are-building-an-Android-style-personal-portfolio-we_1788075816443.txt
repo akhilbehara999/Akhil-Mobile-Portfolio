@@ -1,0 +1,385 @@
+You are building an Android-style personal portfolio web app from scratch. 
+This is NOT a traditional portfolio website. It must feel and behave like a 
+native Android application running inside a browser on a mobile phone.
+
+══════════════════════════════════════════
+TECH STACK
+══════════════════════════════════════════
+
+- React 18 + TypeScript
+- Tailwind CSS (utility-first, no extra component libraries)
+- Recharts (for all data visualizations — Line, Bar, Pie)
+- Framer Motion (for animations and micro-interactions)
+- Google Fonts (for typography)
+- NO external UI component libraries (no shadcn, no MUI, no Radix)
+
+══════════════════════════════════════════
+RESPONSIVE BEHAVIOR — CRITICAL
+══════════════════════════════════════════
+
+The app has two states based on viewport width:
+
+1. MOBILE (max-width: 768px)
+   → Render the full Android-style portfolio Home screen (described below)
+
+2. TABLET + DESKTOP (min-width: 769px)
+   → Replace the ENTIRE screen with a polished "Coming Soon" screen.
+   → The Coming Soon screen must:
+      - Use the same color system as the portfolio (warm white + #AA2222 + orange)
+      - Show the name "Akhil" prominently
+      - Show a short tagline: "Full mobile experience coming to tablet & desktop soon."
+      - Show a subtle animated pulse or shimmer effect (no garish animations)
+      - Feel premium, not like a placeholder
+      - Center everything vertically and horizontally
+   → Do NOT render any portfolio content on tablet/desktop viewports.
+
+══════════════════════════════════════════
+COLOR SYSTEM
+══════════════════════════════════════════
+
+Define these as Tailwind CSS variables or constants in a theme file:
+
+Background:       #F8F5F2   (warm off-white)
+Surface:          #FFFFFF   (card/chart surface)
+Surface Muted:    #F2EDE8   (subtle card backgrounds)
+Primary:          #AA2222   (deep red — buttons, active states, chart accents)
+Primary Light:    #CC3333   (hover states)
+Accent:           #E07020   (orange — secondary highlights, chart details)
+Accent Light:     #F5A050   (lighter orange — gradients, glow effects)
+Text Primary:     #1A1A1A   (near-black)
+Text Secondary:   #5C5C5C   (warm gray)
+Text Muted:       #9A9A9A   (labels, subtitles)
+Border:           #E8E2DC   (card borders, dividers)
+Nav Background:   #FFFFFF   (floating nav pill)
+Nav Shadow:       rgba(0,0,0,0.12)
+
+Chart Colors (for Pie chart slices and Bar chart bars):
+  Python:         #AA2222
+  SQL:            #E07020
+  Data:           #C85A10
+  AI/ML:          #8B1A1A
+  Web:            #F0A060
+
+══════════════════════════════════════════
+TYPOGRAPHY
+══════════════════════════════════════════
+
+Import from Google Fonts:
+  - "Inter" — primary UI font (weights: 400, 500, 600, 700)
+  - "Space Grotesk" — display font for headings (weights: 500, 700)
+
+Typography scale:
+
+  HELLO, USER     → Inter 11px, uppercase, letter-spacing: 0.12em, color: Text Muted
+  I'm Akhil       → Space Grotesk 34px, weight 700, color: Text Primary
+  Tagline line 1  → Inter 15px, weight 500, color: Text Secondary
+  Section labels  → Inter 12px, uppercase, letter-spacing: 0.1em, color: Text Muted
+  Card headings   → Space Grotesk 16px, weight 600
+  Body text       → Inter 14px, weight 400, color: Text Secondary
+  Chart labels    → Inter 11px, weight 500
+
+══════════════════════════════════════════
+HOME SCREEN — FULL SPECIFICATION
+══════════════════════════════════════════
+
+The Home screen is a single scrollable column. 
+Fixed floating bottom navigation stays at the bottom of the viewport at all times.
+The scrollable content sits above it with 80px padding at the bottom.
+
+──────────────────────────────────────────
+SECTION 1 — HEADER
+──────────────────────────────────────────
+
+Layout: Full width, padding 24px left/right, padding-top 52px.
+
+Contents:
+  Row 1: Small label text — "HELLO, USER" in Text Muted, uppercase, Inter 11px
+  Row 2: "I'm Akhil" — Space Grotesk 34px bold, Text Primary color
+  Row 3: "Data  ·  AI  ·  Engineering" — Inter 15px, Text Secondary
+          Use a centered dot as separator, not a bullet
+  Row 4: (8px gap)
+  Row 5: A single short description card —
+
+    Card style: background Surface Muted, border-radius 14px, padding 16px,
+                border 1px solid Border color
+    Content: Two short lines of text
+       Line 1: "Turning data into decisions,"  — Inter 14px, Text Secondary
+       Line 2: "and ideas into working systems." — Inter 14px, Text Secondary
+
+Animation (Framer Motion):
+  - "HELLO, USER" fades in at 0ms
+  - "I'm Akhil" fades up 100ms later
+  - Tagline fades up 200ms later
+  - Description card fades up 300ms later
+  All animations: opacity 0→1, y: 12→0, duration 400ms, ease: easeOut
+
+──────────────────────────────────────────
+SECTION 2 — LINE CHART (My Journey)
+──────────────────────────────────────────
+
+Section label: "MY JOURNEY" — 12px uppercase, Text Muted, margin-bottom 10px
+
+Card: background Surface, border-radius 16px, padding 16px,
+      border 1px solid Border, shadow: 0 2px 12px rgba(0,0,0,0.06)
+
+Chart: Recharts LineChart
+  - Height: 180px
+  - Width: 100%
+  - Data:
+      { label: "Year 1", value: 60 }
+      { label: "Year 2", value: 72 }
+      { label: "Year 3", value: 85 }
+      { label: "Year 4", value: 95 }
+  - Line color: #AA2222
+  - Stroke width: 2.5
+  - Dot: filled circle, radius 5, fill #AA2222
+  - No grid lines (CartesianGrid hidden)
+  - X axis: labels in Inter 11px, Text Muted color, no axis line
+  - Y axis: hidden entirely
+  - Tooltip: custom — on dot hover, show card with label + "Progress ↑"
+
+Below chart (inside same card):
+  Two small stats side by side:
+    Left:  "3 Semesters" label + "Completed" subtext
+    Right: "↑ Learning" label + "Trajectory" subtext
+  Both in Inter 12px, Text Muted
+
+Animation:
+  Card fades up 400ms after mount (same Framer Motion pattern)
+  Line draws itself using a stroke-dashoffset animation over 800ms after card appears
+
+──────────────────────────────────────────
+SECTION 3 — BAR CHART + PIE CHART (side by side)
+──────────────────────────────────────────
+
+Layout: Two cards side by side, each taking 50% width minus 6px gap.
+        Both cards: border-radius 16px, padding 14px, background Surface,
+                    border 1px solid Border, shadow same as above.
+        Both cards: height 180px
+
+LEFT CARD — BAR CHART (Projects)
+
+  Label: "PROJECTS" — 12px uppercase, Text Muted
+  
+  Chart: Recharts BarChart
+    - Layout: "vertical" (horizontal bars)
+    - X axis: numeric (number of technologies used), hidden labels,
+              range 0–5
+    - Y axis: project names
+    - Bars represent technologies used per project:
+        { project: "AI Analyst", tech: 4 }
+        { project: "Data Agent", tech: 3 }
+        { project: "FileFlow", tech: 5 }
+    - Bar fill: #AA2222
+    - Bar radius: 4px on right end (rounded bars)
+    - Bar height: 14px
+    - No grid, no axes visible except Y axis labels
+    - Y axis labels: Inter 10px, Text Secondary, right-aligned
+
+  NOTE: X axis = technologies used (numeric), Y axis = 3 project names.
+  This is a horizontal bar chart where bar length = number of technologies.
+
+RIGHT CARD — PIE CHART (Skills)
+
+  Label: "SKILLS" — 12px uppercase, Text Muted
+
+  Chart: Recharts PieChart (standard pie, NOT donut)
+    - Size: 110px × 110px centered in card
+    - Data:
+        { name: "Python", value: 35, color: "#AA2222" }
+        { name: "SQL",    value: 25, color: "#E07020" }
+        { name: "Data",   value: 20, color: "#C85A10" }
+        { name: "AI/ML",  value: 12, color: "#8B1A1A" }
+        { name: "Web",    value: 8,  color: "#F0A060" }
+    - No labels on slices
+    - On slice tap/hover: show tooltip with skill name + percentage
+    - Outer radius: 50
+    - Stroke: none between slices
+
+  Below chart: row of 5 small dot + label indicators
+    ● Python  ● SQL  ● Data  ● AI  ● Web
+    Each in Inter 9px, Text Muted, with matching color dot
+
+Animation:
+  Both cards fade up 500ms after mount
+  Pie chart animates entry over 600ms (Recharts isAnimationActive)
+
+──────────────────────────────────────────
+SECTION 4 — EXPLORE PROJECTS CTA
+──────────────────────────────────────────
+
+A full-width pill/card button.
+
+Style:
+  - Background: #AA2222
+  - Border-radius: 14px
+  - Padding: 18px 24px
+  - Shadow: 0 4px 16px rgba(170, 34, 34, 0.28)
+  - Width: 100%
+
+Contents:
+  Left side: "Explore Projects" — Space Grotesk 16px bold, white
+  Right side: Arrow icon → (white, 20px)
+  Space between using flex justify-between
+
+Interaction:
+  - On press: scale down to 0.97 (Framer Motion whileTap)
+  - On hover: Primary Light #CC3333 background
+  - On tap: navigates to Workspace (Coming Soon screen — see navigation)
+  - Ripple/pulse: subtle red glow pulse on mount to draw attention
+
+Animation: fades up 600ms after mount
+
+──────────────────────────────────────────
+SECTION 5 — FLOATING BOTTOM NAVIGATION
+──────────────────────────────────────────
+
+Position: fixed, bottom: 20px, left: 50%, transform: translateX(-50%)
+Width: calc(100% - 48px), max-width: 360px
+
+Style:
+  - Background: #FFFFFF
+  - Border-radius: 24px
+  - Padding: 12px 8px
+  - Shadow: 0 4px 24px rgba(0,0,0,0.12)
+  - Border: 1px solid Border color
+
+Three items evenly distributed: Home | Workspace | Contact
+
+Each nav item:
+  - Icon (use simple inline SVG or Heroicons — Home icon, Grid icon, Mail icon)
+  - Label below icon: Inter 11px
+
+Active state (Home is active by default):
+  - Active item gets a pill background: #AA2222 with 10% opacity (#AA222218)
+  - Active icon and label color: #AA2222
+  - Active indicator: small 4px × 4px filled dot below label in #AA2222
+
+Inactive state:
+  - Icon and label color: Text Muted (#9A9A9A)
+
+Active indicator pill transition:
+  - When nav item changes, the active pill slides using Framer Motion layout animation
+
+Behavior:
+  - Home: shows the Home screen (default)
+  - Workspace: replaces entire screen content with Coming Soon screen
+  - Contact: replaces entire screen content with Coming Soon screen
+
+══════════════════════════════════════════
+COMING SOON SCREEN — SPECIFICATION
+══════════════════════════════════════════
+
+Used for: Workspace tap, Contact tap, and all tablet/desktop viewports.
+
+Layout: Full screen, flex column, centered vertically and horizontally.
+Background: #F8F5F2 (same as main background)
+
+Contents (top to bottom, centered):
+  1. A small ambient glow circle: 200px × 200px, 
+     background: radial gradient from #E07020 20% opacity to transparent,
+     positioned absolute behind the text, blurred (filter: blur 40px)
+
+  2. Monogram / initial: "A" in Space Grotesk 48px bold, color #AA2222,
+     inside a 72px × 72px circle with border 2px solid #AA2222 and 
+     background rgba(170,34,34,0.08)
+
+  3. Title: "Coming Soon" — Space Grotesk 28px bold, Text Primary, margin-top 20px
+
+  4. Subtitle (for Workspace/Contact):
+     "This section is being crafted with care."
+     Inter 14px, Text Secondary, text-align center, max-width 220px
+
+  5. Subtitle (for tablet/desktop Coming Soon):
+     "Full mobile experience coming to tablet & desktop soon."
+     Same style as above.
+
+  6. A subtle animated shimmer line: 
+     60px wide, 2px tall, background gradient #AA2222→#E07020,
+     with a shimmer animation (translate-x loop) below the subtitle,
+     margin-top 24px
+
+  7. Back button (for Workspace/Contact only — not for tablet/desktop):
+     "← Back to Home" — Inter 13px, color #AA2222, 
+     tappable, returns to Home screen,
+     margin-top 32px
+
+Animation on mount:
+  - Monogram scales from 0.8 to 1.0, fades in
+  - Title and subtitle fade up
+  - All within 400ms
+
+══════════════════════════════════════════
+APP STATE & ROUTING
+══════════════════════════════════════════
+
+Use React useState for navigation — no React Router needed.
+
+State: currentScreen: "home" | "workspace" | "contact"
+
+- When currentScreen === "home": show Home scroll content + active Home nav item
+- When currentScreen === "workspace": show Coming Soon screen, Workspace nav active
+- When currentScreen === "contact": show Coming Soon screen, Contact nav active
+
+The floating bottom nav always stays visible on all three states.
+On Coming Soon screens, the nav still shows but Home is not active.
+
+══════════════════════════════════════════
+SPACING SYSTEM
+══════════════════════════════════════════
+
+Outer horizontal padding: 24px left/right on all sections
+Gap between sections: 20px
+Gap between side-by-side cards: 12px
+Card internal padding: 16px (large) or 14px (small side-by-side)
+Bottom padding of scroll area: 100px (so content clears the floating nav)
+
+══════════════════════════════════════════
+PERFORMANCE & QUALITY CONSTRAINTS
+══════════════════════════════════════════
+
+- No useEffect with no dependency array unless absolutely necessary
+- All Framer Motion animations must use will-change: transform/opacity only
+- Charts must not cause layout shift — wrap in a fixed-height container
+- Images: none on Home screen (no portrait photo)
+- Fonts: preload Inter and Space Grotesk in <head>
+- No inline styles — use Tailwind classes or CSS variables only
+- The app must run without any backend — all chart data is hardcoded
+
+══════════════════════════════════════════
+FILE STRUCTURE
+══════════════════════════════════════════
+
+src/
+  App.tsx                  — root, handles viewport detection + screen state
+  theme.ts                 — color constants and typography scale
+  components/
+    HomeScreen.tsx         — main scrollable Home content
+    Header.tsx             — greeting + description card
+    JourneyChart.tsx       — line chart section
+    ProjectsSkillsRow.tsx  — bar chart + pie chart side-by-side
+    ExploreButton.tsx      — CTA pill button
+    BottomNav.tsx          — floating navigation
+    ComingSoon.tsx         — Coming Soon screen (used for nav + tablet/desktop)
+  data/
+    chartData.ts           — all hardcoded chart data in one file
+
+══════════════════════════════════════════
+QA CHECKLIST — verify before considering done
+══════════════════════════════════════════
+
+□ On a 390px wide viewport (iPhone 14 size), no horizontal overflow
+□ Bottom nav does not cover the Explore button when scrolled to bottom
+□ Line chart animates on first render (draws itself)
+□ Pie chart animates on first render
+□ Bar chart bars animate on first render (Recharts default is fine)
+□ Tapping Workspace or Contact nav item shows Coming Soon screen
+□ Tapping "← Back to Home" on Coming Soon returns to Home
+□ On a 768px+ viewport, ONLY the Coming Soon screen shows — no portfolio content
+□ All fonts load correctly (Inter + Space Grotesk)
+□ No console errors on mount
+□ Tooltip appears on line chart dot hover/tap
+□ Tooltip appears on pie chart slice hover/tap
+□ Explore Projects button taps correctly navigate to Workspace Coming Soon
+□ Active nav item indicator animates smoothly when switching tabs
+□ All colors match the defined color system — no default blues or grays
