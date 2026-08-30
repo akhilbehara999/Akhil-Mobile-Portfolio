@@ -630,7 +630,43 @@
   }
 
   .pie-fixed {
+    position: relative;
     height: 178px;
+  }
+
+  .skill-tap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    width: 74px;
+    min-height: 50px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(170, 34, 34, 0.16);
+    border-radius: 12px;
+    padding: 6px 8px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 6px 16px rgba(91, 43, 25, 0.12);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .skill-tap-name {
+    color: #5c5c5c;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .skill-tap-value {
+    margin-top: 2px;
+    color: #aa2222;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
   }
 
   .chart-tooltip {

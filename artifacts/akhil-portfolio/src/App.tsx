@@ -174,6 +174,18 @@ function ProjectsCard() {
 }
 
 function SkillsCard() {
+  const [selectedSkill, setSelectedSkill] = useState<(typeof skillData)[number] | null>(null);
+
+  useEffect(() => {
+    if (!selectedSkill) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setSelectedSkill(null);
+    }, 3000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [selectedSkill]);
+
   return (
     <div className="chart-card small-chart-card" data-testid="chart-skills">
       <div className="flex items-center justify-between gap-2">
@@ -192,6 +204,7 @@ function SkillsCard() {
               outerRadius={50}
               isAnimationActive
               stroke="none"
+              onClick={(_, index) => setSelectedSkill(skillData[index] ?? null)}
             >
               {skillData.map((skill) => (
                 <Cell key={skill.name} fill={skill.color} />
@@ -200,6 +213,23 @@ function SkillsCard() {
             <Tooltip content={<ChartTooltip mode="pie" />} />
           </PieChart>
         </ResponsiveContainer>
+        <AnimatePresence>
+          {selectedSkill ? (
+            <motion.div
+              className="skill-tap"
+              initial={{ opacity: 0, scale: 0.82, y: 5 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: -3 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              role="status"
+              aria-live="polite"
+              data-testid="selected-skill"
+            >
+              <span className="skill-tap-name">{selectedSkill.name}</span>
+              <span className="skill-tap-value">{selectedSkill.value}%</span>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
       <div className="legend-list">
         {skillData.map((skill) => (
