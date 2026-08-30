@@ -1,0 +1,333 @@
+You are adding a Contact screen to the existing Android-style portfolio app.
+This screen opens when the user taps "Contact" in the bottom navigation.
+It must feel like navigating within the same native Android app — consistent
+with the Home and Workspace screens already built.
+
+══════════════════════════════════════════
+WHAT ALREADY EXISTS — DO NOT CHANGE
+══════════════════════════════════════════
+
+- App.tsx manages currentScreen state and viewport detection
+- BottomNav.tsx is shared and already handles active states
+- theme.ts defines all colors and typography
+- ComingSoon.tsx handles tablet/desktop viewports
+- HomeScreen.tsx and WorkspaceScreen.tsx are complete and untouched
+
+You are ONLY adding:
+  src/components/ContactScreen.tsx          — main Contact screen
+  src/components/contact/SocialOrbit.tsx    — floating social icons section
+  src/components/contact/ContactForm.tsx    — Name + Email + Message + Send form
+
+Update App.tsx: when currentScreen === "contact" → render <ContactScreen />
+instead of the old Coming Soon placeholder.
+
+══════════════════════════════════════════
+RESPONSIVE BEHAVIOR — UNCHANGED
+══════════════════════════════════════════
+
+Tablet/desktop (min-width: 769px) → still shows only ComingSoon screen.
+Contact screen only renders on mobile (max-width: 768px).
+
+══════════════════════════════════════════
+COLOR & TYPOGRAPHY — SAME SYSTEM
+══════════════════════════════════════════
+
+Background:       #F8F5F2
+Surface:          #FFFFFF
+Surface Muted:    #F2EDE8
+Primary:          #AA2222
+Primary Light:    #CC3333
+Accent:           #E07020
+Text Primary:     #1A1A1A
+Text Secondary:   #5C5C5C
+Text Muted:       #9A9A9A
+Border:           #E8E2DC
+
+Fonts: Inter + Space Grotesk — already loaded.
+
+══════════════════════════════════════════
+CONTACT SCREEN — FULL SPECIFICATION
+══════════════════════════════════════════
+
+Layout: Single scrollable column.
+        Outer horizontal padding: 24px left/right.
+        Bottom padding: 100px (clears floating nav).
+        Fixed floating BottomNav — Contact tab is active.
+
+──────────────────────────────────────────
+SECTION 1 — HEADER
+──────────────────────────────────────────
+
+Padding-top: 52px.
+
+Row 1 — Icon + Title on same line:
+  Left: 40px × 40px circle
+        Background: rgba(170, 34, 34, 0.10)
+        Border: 1.5px solid #AA2222
+        Inside: Lucide "Mail" icon, 20px, stroke #AA2222
+  Right of icon (8px gap): "Contact" — Space Grotesk 28px bold, Text Primary
+
+Row 2 — Description (margin-top: 10px):
+  Two lines, Inter 14px, Text Secondary:
+    Line 1: "Let's connect — I'd love to hear from you."
+    Line 2: "Find me on socials or drop a message below."
+
+Row 3 — Thin divider (margin-top: 20px):
+  Full width, 1px solid #E8E2DC
+
+Animation (Framer Motion):
+  Icon: scale 0.8→1.0 + fade, 0ms, 350ms
+  Title: fade up, 80ms delay
+  Description: fade up, 160ms delay
+  Divider: fade in, 240ms delay
+
+──────────────────────────────────────────
+SECTION 2 — SOCIAL LINKS (SocialOrbit.tsx)
+──────────────────────────────────────────
+
+Margin-top: 24px
+
+Section label: "SOCIAL LINKS" — Inter 12px uppercase, letter-spacing 0.1em,
+               Text Muted, margin-bottom 16px
+
+Container: Surface card
+  Background: #FFFFFF
+  Border: 1px solid #E8E2DC
+  Border-radius: 20px
+  Padding: 28px 16px
+  Shadow: 0 2px 12px rgba(0,0,0,0.06)
+
+Inside the card:
+  Three social icon bubbles arranged in a loose horizontal row,
+  centered, with some vertical offset to feel organic (not rigid grid).
+
+  Exact positions using relative layout:
+    GitHub:    left offset, slightly lower    (translateY: +8px)
+    LinkedIn:  center, highest position       (translateY: -12px)
+    Instagram: right offset, middle position  (translateY: 0px)
+
+  Each bubble:
+    Size: 64px × 64px circle
+    Background: #AA2222
+    Shadow: 0 6px 20px rgba(170, 34, 34, 0.30)
+    Border-radius: 50%
+    Inside: brand icon in white, 28px
+
+    Icons to use (use react-icons/si for brand icons):
+      GitHub:    SiGithub
+      LinkedIn:  SiLinkedin
+      Instagram: SiInstagram
+
+    Below each bubble (margin-top: 8px):
+      Platform name — Inter 11px, weight 500, Text Secondary, text-align center
+
+  ── FLOATING ANIMATION ──
+
+  Each bubble must float independently using Framer Motion animate:
+    Use y: keyframes with a gentle up-down oscillation.
+    Each bubble has a different duration and starting phase so they
+    don't move in sync — this creates the "floating in air" feel.
+
+    GitHub:
+      animate: { y: [0, -10, 0] }
+      transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" }
+
+    LinkedIn:
+      animate: { y: [0, -14, 0] }
+      transition: { duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.4 }
+
+    Instagram:
+      animate: { y: [0, -8, 0] }
+      transition: { duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.8 }
+
+  ── CONNECTING WAVE LINES ──
+
+  Behind the bubbles (z-index lower than bubbles), draw 2 curved
+  SVG lines connecting the 3 bubbles loosely — like invisible strings
+  holding them in the air.
+
+  SVG: position absolute, full width of card, height ~120px
+  Lines: stroke #AA2222, strokeWidth 1, opacity 0.15
+  Use quadratic bezier curves (SVG path with Q command)
+  Line 1: from GitHub bubble center to LinkedIn bubble center
+  Line 2: from LinkedIn bubble center to Instagram bubble center
+  These lines are purely decorative — subtle, barely visible
+
+  ── SOCIAL LINK BEHAVIOR ──
+
+  Each bubble is tappable:
+    GitHub:    opens https://github.com/akhilbehara999 in new tab
+    LinkedIn:  opens https://linkedin.com/in/akhil-behara in new tab
+    Instagram: opens https://instagram.com/akhil_behara in new tab
+
+  NOTE: Replace these URLs with Akhil's actual profile URLs.
+        Use the above as placeholder format.
+
+  On tap: whileTap scale 0.92, then opens link
+
+  Entrance animation for the whole card:
+    Card fades up on mount, 300ms delay, 400ms duration
+
+──────────────────────────────────────────
+SECTION 3 — CONTACT FORM (ContactForm.tsx)
+──────────────────────────────────────────
+
+Margin-top: 20px
+
+Section label: "SEND A MESSAGE" — Inter 12px uppercase, letter-spacing 0.1em,
+               Text Muted, margin-bottom 14px
+
+Card:
+  Background: #FFFFFF
+  Border: 1px solid #E8E2DC
+  Border-radius: 20px
+  Padding: 20px
+  Shadow: 0 2px 12px rgba(0,0,0,0.06)
+
+Form fields (top to bottom, gap 14px between each):
+
+── FIELD STYLE (apply to all text inputs and textarea) ──
+  Background: #F8F5F2
+  Border: 1.5px solid #E8E2DC
+  Border-radius: 12px
+  Padding: 14px 16px
+  Font: Inter 14px, Text Primary
+  Placeholder color: Text Muted (#9A9A9A)
+  On focus:
+    Border: 1.5px solid #AA2222
+    Shadow: 0 0 0 3px rgba(170,34,34,0.08)
+    Transition: 200ms ease
+  No default browser outline (outline: none)
+
+1. NAME FIELD
+   Type: text input
+   Placeholder: "Your name"
+   Full width
+
+2. EMAIL FIELD
+   Type: email input
+   Placeholder: "your@email.com"
+   Full width
+
+3. MESSAGE FIELD
+   Type: textarea
+   Placeholder: "What's on your mind..."
+   Full width
+   Min-height: 120px
+   Resize: none (disable manual resize)
+   Vertical scroll if content overflows
+
+4. SEND BUTTON
+   Full width pill button:
+     Background: #AA2222
+     Border-radius: 14px
+     Padding: 16px 24px
+     Shadow: 0 4px 16px rgba(170,34,34,0.28)
+
+   Contents: flex row, space-between
+     Left: "Send Message" — Space Grotesk 15px bold, white
+     Right: Lucide "Send" icon, 18px, white
+
+   States:
+     Idle:     #AA2222 background
+     Hover:    #CC3333 background
+     Pressed:  scale 0.97 (Framer Motion whileTap)
+     Sending:  show a small loading spinner (Lucide "Loader2" icon,
+               animated spin CSS class) replacing the Send icon,
+               button text changes to "Sending..." and button is disabled
+     Success:  see below
+
+── FORM VALIDATION ──
+  Before submit, check:
+  - Name: not empty
+  - Email: valid email format (basic regex)
+  - Message: not empty, min 10 characters
+
+  If any field is invalid on submit:
+    Show a small red error message below the invalid field:
+    Inter 12px, color #AA2222
+    "Please enter your name" / "Please enter a valid email" / "Message too short"
+
+  Show error messages with a fade-in animation (opacity 0→1, 200ms)
+
+── SUCCESS STATE ──
+  When Send is tapped and all fields are valid:
+
+  Step 1 (0–600ms): Button shows "Sending..." + spinner
+
+  Step 2 (600ms): The entire form card transforms:
+    Replace form content with a success state inside the same card:
+
+    Contents (centered, flex column, align center):
+      - Lucide "CheckCircle2" icon, 48px, color #AA2222
+        with a scale 0.5→1.0 + fade entrance animation
+      - "Message Sent!" — Space Grotesk 20px bold, Text Primary, margin-top 16px
+      - "Thanks for reaching out. I'll get back to you soon."
+        Inter 13px, Text Muted, text-align center, margin-top 8px, max-width 220px
+      - "Send another" text button — Inter 13px, color #AA2222, margin-top 24px
+        On tap: resets form to empty, returns to input state
+
+  The card height should animate smoothly during this transition
+  (use Framer Motion AnimatePresence to swap form ↔ success state)
+
+Form card entrance animation:
+  Fade up on mount, 400ms delay, 400ms duration
+
+──────────────────────────────────────────
+SECTION 4 — FOOTER NOTE
+──────────────────────────────────────────
+
+Below the form card, margin-top: 20px:
+  Centered text:
+    "Built by Akhil · 2024–2025"
+    Inter 12px, Text Muted, text-align center
+
+  Below that (4px gap):
+    "Andhra Pradesh, India"
+    Inter 11px, Text Muted, text-align center
+
+No animation needed here.
+
+══════════════════════════════════════════
+NAVIGATION STATE — App.tsx UPDATE
+══════════════════════════════════════════
+
+When currentScreen === "contact" → render <ContactScreen />
+Contact tab in BottomNav is active (#AA2222 indicator)
+
+From Contact screen, tapping:
+  Home → currentScreen = "home"
+  Workspace → currentScreen = "workspace"
+  Contact → stays on contact (no re-render needed)
+
+══════════════════════════════════════════
+PERFORMANCE NOTES
+══════════════════════════════════════════
+
+- The floating animation uses Framer Motion's animate prop with
+  repeat: Infinity — this is GPU-composited and will not cause
+  layout thrash. Do NOT use CSS keyframes or JS setInterval for this.
+- SVG wave lines are static — no animation needed on them.
+- Form state is local to ContactForm.tsx using useState.
+  Do NOT lift form state to App.tsx.
+- react-icons must be installed if not already:
+  npm install react-icons
+
+══════════════════════════════════════════
+QA CHECKLIST
+══════════════════════════════════════════
+
+□ Contact nav tab shows red active indicator on this screen
+□ All 3 social bubbles float independently (not in sync)
+□ SVG connecting lines are visible but very subtle (opacity ~0.15)
+□ Tapping a social bubble opens the correct URL in a new tab
+□ Name, Email, Message fields all have correct focus styles (red border + glow)
+□ Submitting empty form shows inline error messages under each invalid field
+□ Valid submission shows "Sending..." for ~600ms then success state
+□ Success state shows CheckCircle icon + message + "Send another" button
+□ "Send another" resets the form correctly
+□ Footer note "Built by Akhil" appears below the form
+□ No horizontal overflow at 390px viewport width
+□ Floating BottomNav stays visible and correct throughout
+□ Home and Workspace screens are completely unchanged
+□ Tablet/desktop still shows only ComingSoon screen

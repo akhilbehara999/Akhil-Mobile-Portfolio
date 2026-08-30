@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft,
   ArrowRight,
   BarChart3,
   BriefcaseBusiness,
   Code2,
   Home as HomeIcon,
   Mail,
-  Send,
 } from 'lucide-react';
 import {
   Bar,
@@ -24,6 +22,7 @@ import {
   YAxis,
 } from 'recharts';
 import { SectionScreen } from './components/SectionScreen';
+import { ContactScreen } from './components/ContactScreen';
 import { WorkspaceScreen, type SectionId } from './components/WorkspaceScreen';
 
 type Screen = 'home' | 'workspace' | 'contact' | 'section';
@@ -321,60 +320,6 @@ function HomeScreen({ onExplore }: { onExplore: () => void }) {
   );
 }
 
-function ComingSoonScreen({ screen, onBack }: { screen: 'contact'; onBack: () => void }) {
-  return (
-    <motion.main
-      key={screen}
-      className="content-shell flex min-h-[100dvh] flex-col"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      data-testid={`screen-${screen}`}
-    >
-      <header className="top-bar">
-        <button
-          type="button"
-          className="brand-mark"
-          onClick={onBack}
-          aria-label="Back to home"
-          data-testid="button-back-brand"
-        >
-          A
-        </button>
-        <div className="status-pill">
-          <span className="status-dot" aria-hidden="true" />
-          Say hello
-        </div>
-      </header>
-      <div className="flex flex-1 flex-col items-center justify-center pb-28 text-center">
-        <motion.div
-          className="coming-symbol"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          aria-hidden="true"
-        >
-          <Send size={24} strokeWidth={1.7} />
-        </motion.div>
-        <p className="eyebrow">In progress</p>
-        <h1 className="coming-title">Coming Soon</h1>
-        <p className="coming-copy">This section is being crafted with care.</p>
-        <div className="coming-rule" aria-hidden="true" />
-        <button
-          type="button"
-          onClick={onBack}
-          className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#E8E2DC] bg-white px-4 py-2.5 font-display text-xs font-medium text-[#5C5C5C] transition-colors hover:border-[#AA2222] hover:text-[#AA2222]"
-          data-testid="button-back-home"
-        >
-          <ArrowLeft size={14} strokeWidth={2} />
-          Back to home
-        </button>
-      </div>
-    </motion.main>
-  );
-}
-
 function MobileNav({ screen, onNavigate }: { screen: Screen; onNavigate: (screen: NavScreen) => void }) {
   return (
     <nav className="bottom-nav phone-only" aria-label="Primary navigation" data-testid="navigation-bottom">
@@ -387,7 +332,11 @@ function MobileNav({ screen, onNavigate }: { screen: Screen; onNavigate: (screen
            aria-current={screen === id || (screen === 'section' && id === 'workspace') ? 'page' : undefined}
           data-testid={`button-nav-${id}`}
         >
-          <Icon className="nav-icon" size={19} strokeWidth={screen === id ? 2.2 : 1.7} />
+           <Icon
+             className="nav-icon"
+             size={19}
+             strokeWidth={screen === id || (screen === 'section' && id === 'workspace') ? 2.2 : 1.7}
+           />
           <span>{label}</span>
         </button>
       ))}
@@ -450,8 +399,10 @@ function MobileExperience() {
           <WorkspaceScreen key="workspace" onCardTap={openSection} />
         ) : screen === 'section' && currentSection ? (
           <SectionScreen key={`section-${currentSection}`} sectionId={currentSection} onBack={backToWorkspace} />
+        ) : screen === 'contact' ? (
+          <ContactScreen key="contact" />
         ) : (
-          <ComingSoonScreen key="contact" screen="contact" onBack={() => navigate('home')} />
+          <HomeScreen key="fallback-home" onExplore={() => navigate('workspace')} />
         )}
       </AnimatePresence>
       <MobileNav screen={screen} onNavigate={navigate} />
