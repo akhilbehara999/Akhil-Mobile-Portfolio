@@ -154,8 +154,15 @@ function ProjectsCard() {
       </div>
       <div className="bar-fixed">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={projectData} layout="vertical" margin={{ top: 8, right: 6, bottom: 0, left: 4 }}>
-            <XAxis type="number" domain={[0, 5]} hide />
+          <BarChart data={projectData} layout="vertical" margin={{ top: 4, right: 6, bottom: 8, left: 4 }}>
+            <XAxis
+              type="number"
+              domain={[0, 5]}
+              ticks={[0, 1, 2, 3, 4, 5]}
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#9A9A9A', fontSize: 9 }}
+            />
             <YAxis
               type="category"
               dataKey="name"
@@ -317,9 +324,9 @@ function ComingSoonScreen({ screen, onBack }: { screen: Exclude<Screen, 'home'>;
     <motion.main
       key={screen}
       className="content-shell flex min-h-[100dvh] flex-col"
-      initial={{ opacity: 0, x: 12 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -12 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       data-testid={`screen-${screen}`}
     >
@@ -416,17 +423,21 @@ function useIsDesktop() {
 
 function MobileExperience() {
   const [screen, setScreen] = useState<Screen>('home');
+  const navigate = (nextScreen: Screen) => {
+    window.scrollTo(0, 0);
+    setScreen(nextScreen);
+  };
 
   return (
     <div className="phone-only phone-canvas" data-testid="mobile-experience">
       <AnimatePresence mode="wait" initial={false}>
         {screen === 'home' ? (
-          <HomeScreen key="home" onExplore={() => setScreen('workspace')} />
+          <HomeScreen key="home" onExplore={() => navigate('workspace')} />
         ) : (
-          <ComingSoonScreen key={screen} screen={screen} onBack={() => setScreen('home')} />
+          <ComingSoonScreen key={screen} screen={screen} onBack={() => navigate('home')} />
         )}
       </AnimatePresence>
-      <MobileNav screen={screen} onNavigate={setScreen} />
+      <MobileNav screen={screen} onNavigate={navigate} />
     </div>
   );
 }
