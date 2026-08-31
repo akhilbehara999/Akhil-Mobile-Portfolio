@@ -430,6 +430,14 @@
     padding: 2px 0 22px;
   }
 
+  .top-actions {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
   .brand-mark {
     display: grid;
     width: 34px;
@@ -447,6 +455,7 @@
 
   .status-pill {
     display: inline-flex;
+    min-width: 0;
     align-items: center;
     gap: 7px;
     border: 1px solid #e8e2dc;
@@ -458,6 +467,29 @@
     font-weight: 600;
     letter-spacing: 0.09em;
     text-transform: uppercase;
+  }
+
+  .theme-toggle {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid rgba(170, 34, 34, 0.18);
+    border-radius: 12px;
+    color: #aa2222;
+    background: rgba(255, 255, 255, 0.76);
+    box-shadow: 0 4px 12px rgba(91, 43, 25, 0.06);
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  }
+
+  .theme-toggle:hover {
+    background: #fff;
+    transform: translateY(-1px);
+  }
+
+  .theme-toggle:active {
+    transform: translateY(0);
   }
 
   .status-dot {
@@ -1088,6 +1120,22 @@
     letter-spacing: 0.1em;
   }
 
+  .contact-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin: 10px 0 0;
+    color: #9a9a9a;
+    font-size: 12px;
+  }
+
+  .contact-details a {
+    color: #aa2222;
+    text-decoration: none;
+  }
+
   .contact-social {
     margin-top: 24px;
   }
@@ -1143,6 +1191,11 @@
   }
 
   .social-node-instagram {
+    right: 9%;
+    top: 54px;
+  }
+
+  .social-node-drive {
     right: 9%;
     top: 54px;
   }
@@ -2052,6 +2105,183 @@
   .workspace-card {
     padding-right: 13px;
     padding-left: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .phone-canvas[data-theme='dark'] {
+    color-scheme: dark;
+    background:
+      radial-gradient(circle at 93% 4%, rgba(224, 112, 32, 0.13), transparent 24rem),
+      #151210;
+  }
+
+  .phone-canvas[data-theme='dark'] .brand-mark,
+  .phone-canvas[data-theme='dark'] .theme-toggle {
+    border-color: rgba(240, 160, 96, 0.24);
+    color: #f0a060;
+    background: rgba(33, 27, 24, 0.86);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .phone-canvas[data-theme='dark'] .theme-toggle:hover {
+    background: #2a211d;
+  }
+
+  .phone-canvas[data-theme='dark'] .status-pill {
+    border-color: #3d322c;
+    color: #c9bbb1;
+    background: rgba(33, 27, 24, 0.86);
+  }
+
+  .phone-canvas[data-theme='dark'] .hero-panel,
+  .phone-canvas[data-theme='dark'] .chart-card,
+  .phone-canvas[data-theme='dark'] .workspace-card,
+  .phone-canvas[data-theme='dark'] .education-card,
+  .phone-canvas[data-theme='dark'] .project-card,
+  .phone-canvas[data-theme='dark'] .experience-card,
+  .phone-canvas[data-theme='dark'] .certificate-card,
+  .phone-canvas[data-theme='dark'] .social-orbit-card,
+  .phone-canvas[data-theme='dark'] .contact-form-card {
+    border-color: #3d322c;
+    background: #211b18;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+  }
+
+  .phone-canvas[data-theme='dark'] .hero-panel {
+    border-color: rgba(224, 112, 32, 0.25);
+  }
+
+  .phone-canvas[data-theme='dark'] .hero-title,
+  .phone-canvas[data-theme='dark'] .small-chart-title,
+  .phone-canvas[data-theme='dark'] .stat-value,
+  .phone-canvas[data-theme='dark'] .workspace-heading-row h1,
+  .phone-canvas[data-theme='dark'] .section-header h1,
+  .phone-canvas[data-theme='dark'] .workspace-card-title,
+  .phone-canvas[data-theme='dark'] .education-card h2,
+  .phone-canvas[data-theme='dark'] .project-card-title-row h2,
+  .phone-canvas[data-theme='dark'] .project-detail-heading h2,
+  .phone-canvas[data-theme='dark'] .experience-heading-row h2,
+  .phone-canvas[data-theme='dark'] .certificate-details h2,
+  .phone-canvas[data-theme='dark'] .contact-success h3 {
+    color: #f8f5f2;
+  }
+
+  .phone-canvas[data-theme='dark'] .hero-role,
+  .phone-canvas[data-theme='dark'] .hero-copy,
+  .phone-canvas[data-theme='dark'] .legend-item,
+  .phone-canvas[data-theme='dark'] .workspace-description,
+  .phone-canvas[data-theme='dark'] .workspace-card-description,
+  .phone-canvas[data-theme='dark'] .education-grade,
+  .phone-canvas[data-theme='dark'] .education-institution,
+  .phone-canvas[data-theme='dark'] .project-short-description,
+  .phone-canvas[data-theme='dark'] .project-detail-copy p,
+  .phone-canvas[data-theme='dark'] .experience-card li p,
+  .phone-canvas[data-theme='dark'] .certificate-details p,
+  .phone-canvas[data-theme='dark'] .certificate-details > span,
+  .phone-canvas[data-theme='dark'] .social-name,
+  .phone-canvas[data-theme='dark'] .contact-footer,
+  .phone-canvas[data-theme='dark'] .contact-details {
+    color: #c9bbb1;
+  }
+
+  .phone-canvas[data-theme='dark'] .section-kicker,
+  .phone-canvas[data-theme='dark'] .section-note,
+  .phone-canvas[data-theme='dark'] .stat-label,
+  .phone-canvas[data-theme='dark'] .section-content-label,
+  .phone-canvas[data-theme='dark'] .contact-section-label,
+  .phone-canvas[data-theme='dark'] .education-note,
+  .phone-canvas[data-theme='dark'] .experience-heading-row > span,
+  .phone-canvas[data-theme='dark'] .experience-location,
+  .phone-canvas[data-theme='dark'] .chart-tooltip-label {
+    color: #a99a90;
+  }
+
+  .phone-canvas[data-theme='dark'] .workspace-divider,
+  .phone-canvas[data-theme='dark'] .section-divider,
+  .phone-canvas[data-theme='dark'] .journey-stats,
+  .phone-canvas[data-theme='dark'] .chart-tooltip,
+  .phone-canvas[data-theme='dark'] .project-detail-divider,
+  .phone-canvas[data-theme='dark'] .experience-divider,
+  .phone-canvas[data-theme='dark'] .certificate-drive {
+    border-color: #3d322c;
+  }
+
+  .phone-canvas[data-theme='dark'] .journey-stats {
+    border-top-color: #3d322c;
+  }
+
+  .phone-canvas[data-theme='dark'] .chart-tooltip {
+    background: #2a211d;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  .phone-canvas[data-theme='dark'] .skill-tap {
+    border-color: rgba(240, 160, 96, 0.25);
+    background: rgba(42, 33, 29, 0.96);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .phone-canvas[data-theme='dark'] .skill-tap-name {
+    color: #c9bbb1;
+  }
+
+  .phone-canvas[data-theme='dark'] .skill-icon-box,
+  .phone-canvas[data-theme='dark'] .project-link-source,
+  .phone-canvas[data-theme='dark'] .certificate-drive {
+    border-color: #3d322c;
+    background: #2a211d;
+  }
+
+  .phone-canvas[data-theme='dark'] .project-tags span {
+    border-color: #3d322c;
+    color: #c9bbb1;
+    background: #2a211d;
+  }
+
+  .phone-canvas[data-theme='dark'] .education-year {
+    border-color: rgba(224, 112, 32, 0.3);
+    background: rgba(224, 112, 32, 0.13);
+  }
+
+  .phone-canvas[data-theme='dark'] .certificate-preview {
+    background: #2a211d;
+  }
+
+  .phone-canvas[data-theme='dark'] .contact-field input,
+  .phone-canvas[data-theme='dark'] .contact-field textarea {
+    border-color: #3d322c;
+    color: #f8f5f2;
+    background: #2a211d;
+  }
+
+  .phone-canvas[data-theme='dark'] .contact-field input::placeholder,
+  .phone-canvas[data-theme='dark'] .contact-field textarea::placeholder {
+    color: #8e8178;
+  }
+
+  .phone-canvas[data-theme='dark'] .bottom-nav {
+    border-color: #3d322c;
+    background: rgba(33, 27, 24, 0.9);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .phone-canvas[data-theme='dark'] .nav-item {
+    color: #a99a90;
+  }
+
+  .phone-canvas[data-theme='dark'] .nav-item-active {
+    color: #f0a060;
+  }
+
+  .phone-canvas[data-theme='dark'] .contact-details a,
+  .phone-canvas[data-theme='dark'] .section-back,
+  .phone-canvas[data-theme='dark'] .project-back {
+    color: #f0a060;
+  }
+
+  .phone-canvas[data-theme='dark'] .project-link-source {
+    color: #f0a060;
   }
 }
 

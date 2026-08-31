@@ -7,6 +7,8 @@ import {
   Code2,
   Home as HomeIcon,
   Mail,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import {
   Bar,
@@ -36,18 +38,29 @@ const journeyData = [
 ];
 
 const projectData = [
-  { name: 'AI Analyst', value: 4 },
-  { name: 'Data Agent', value: 3 },
+  { name: 'Data Agent', value: 4 },
   { name: 'FileFlow', value: 5 },
+  { name: 'ThinkRing', value: 4 },
+  { name: 'Data Jobs', value: 5 },
 ];
 
 const skillData = [
-  { name: 'Python', value: 35, color: '#AA2222' },
-  { name: 'SQL', value: 25, color: '#E07020' },
-  { name: 'Data', value: 20, color: '#C85A10' },
-  { name: 'AI/ML', value: 12, color: '#8B1A1A' },
-  { name: 'Web', value: 8, color: '#F0A060' },
+  { name: 'Programming', value: 30, color: '#AA2222' },
+  { name: 'AI & LLMs', value: 25, color: '#E07020' },
+  { name: 'Data', value: 25, color: '#C85A10' },
+  { name: 'Automation', value: 12, color: '#8B1A1A' },
+  { name: 'Tools', value: 8, color: '#F0A060' },
 ];
+
+type Theme = 'light' | 'dark';
+
+function getInitialTheme(): Theme {
+  try {
+    return window.localStorage.getItem('akhil-portfolio-theme') === 'dark' ? 'dark' : 'light';
+  } catch {
+    return 'light';
+  }
+}
 
 const navItems: Array<{ id: NavScreen; label: string; icon: typeof HomeIcon }> = [
   { id: 'home', label: 'Home', icon: HomeIcon },
@@ -242,8 +255,8 @@ function SkillsCard() {
       </div>
       <div className="legend-list">
         {skillData.map((skill) => (
-          <div className="legend-item" key={skill.name} data-testid={`legend-skill-${skill.name.toLowerCase().replace('/', '-')}`}>
-            <span className={`legend-dot legend-dot-${skill.name.toLowerCase().replace('/', '-')}`} aria-hidden="true" />
+          <div className="legend-item" key={skill.name} data-testid={`legend-skill-${skill.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+            <span className="legend-dot" style={{ background: skill.color }} aria-hidden="true" />
             <span>{skill.name}</span>
           </div>
         ))}
@@ -252,7 +265,7 @@ function SkillsCard() {
   );
 }
 
-function HomeScreen({ onExplore }: { onExplore: () => void }) {
+function HomeScreen({ onExplore, theme, onToggleTheme }: { onExplore: () => void; theme: Theme; onToggleTheme: () => void }) {
   return (
     <motion.main
       key="home"
@@ -264,9 +277,21 @@ function HomeScreen({ onExplore }: { onExplore: () => void }) {
     >
       <motion.header className="top-bar" custom={0.05} variants={reveal}>
         <div className="brand-mark" aria-label="Akhil monogram">A</div>
-        <div className="status-pill" data-testid="status-available">
-          <span className="status-dot" aria-hidden="true" />
-          Open to the right problem
+        <div className="top-actions">
+          <div className="status-pill" data-testid="status-available">
+            <span className="status-dot" aria-hidden="true" />
+            Open to the right problem
+          </div>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={onToggleTheme}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            aria-pressed={theme === 'dark'}
+            data-testid="button-theme-toggle"
+          >
+            {theme === 'light' ? <Moon size={17} strokeWidth={1.9} aria-hidden="true" /> : <Sun size={17} strokeWidth={1.9} aria-hidden="true" />}
+          </button>
         </div>
       </motion.header>
 
@@ -275,9 +300,9 @@ function HomeScreen({ onExplore }: { onExplore: () => void }) {
         <h1 className="hero-title">
           I&apos;m <span>Akhil</span>
         </h1>
-        <div className="hero-role">Data · AI · Engineering</div>
+        <div className="hero-role">AI · Data Science · Engineering</div>
         <p className="hero-copy">
-          Turning data into decisions, and ideas into working systems.
+          Building AI-powered applications, workflow automation systems, and data analytics solutions.
         </p>
       </motion.section>
 
@@ -372,7 +397,7 @@ function useIsDesktop() {
   return isDesktop;
 }
 
-function MobileExperience() {
+function MobileExperience({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) {
   const [screen, setScreen] = useState<Screen>('home');
   const [currentSection, setCurrentSection] = useState<SectionId | null>(null);
 
@@ -391,10 +416,10 @@ function MobileExperience() {
   const backToWorkspace = () => navigate('workspace');
 
   return (
-    <div className="phone-only phone-canvas" data-testid="mobile-experience">
+    <div className="phone-only phone-canvas" data-theme={theme} data-testid="mobile-experience">
       <AnimatePresence mode="wait" initial={false}>
         {screen === 'home' ? (
-          <HomeScreen key="home" onExplore={() => navigate('workspace')} />
+          <HomeScreen key="home" onExplore={() => navigate('workspace')} theme={theme} onToggleTheme={onToggleTheme} />
         ) : screen === 'workspace' ? (
           <WorkspaceScreen key="workspace" onCardTap={openSection} />
         ) : screen === 'section' && currentSection ? (
@@ -402,7 +427,7 @@ function MobileExperience() {
         ) : screen === 'contact' ? (
           <ContactScreen key="contact" />
         ) : (
-          <HomeScreen key="fallback-home" onExplore={() => navigate('workspace')} />
+          <HomeScreen key="fallback-home" onExplore={() => navigate('workspace')} theme={theme} onToggleTheme={onToggleTheme} />
         )}
       </AnimatePresence>
       <MobileNav screen={screen} onNavigate={navigate} />
@@ -412,10 +437,19 @@ function MobileExperience() {
 
 function App() {
   const isDesktop = useIsDesktop();
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('akhil-portfolio-theme', theme);
+    } catch {
+      // Theme still works for the current session when storage is unavailable.
+    }
+  }, [theme]);
 
   return (
     <>
-      {isDesktop ? <DesktopComingSoon /> : <MobileExperience />}
+      {isDesktop ? <DesktopComingSoon /> : <MobileExperience theme={theme} onToggleTheme={() => setTheme((current) => current === 'light' ? 'dark' : 'light')} />}
     </>
   );
 }

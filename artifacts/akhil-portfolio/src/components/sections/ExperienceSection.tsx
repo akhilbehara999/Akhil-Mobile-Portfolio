@@ -2,29 +2,26 @@ import { motion } from 'framer-motion';
 
 const experiences = [
   {
-    company: 'TechStart Solutions',
-    role: 'Data Analyst Intern',
-    location: 'Remote · Internship',
-    date: 'Jun 2025 – Aug 2025',
+    company: 'Deloitte Australia',
+    role: 'Data Analytics & Forensic Technology Virtual Experience',
+    location: 'Forage · Virtual Experience',
+    date: '',
     bullets: [
-      'Analyzed large datasets using Python and Pandas to identify business trends.',
-      'Built interactive dashboards in Tableau for weekly stakeholder reviews.',
-      'Automated data cleaning pipelines reducing manual effort by 60%.',
-      'Collaborated with senior analysts to deliver monthly performance reports.',
+      'Built Tableau dashboards and data validation workflows for business intelligence and audit analysis.',
+      'Applied statistical analysis techniques to identify patterns and insights from complex datasets.',
     ],
-    skills: ['Python', 'Pandas', 'Tableau', 'SQL'],
+    skills: ['Tableau', 'Data Validation', 'Statistical Analysis'],
   },
   {
-    company: 'College Innovation Lab',
-    role: 'AI Project Lead',
-    location: 'Visakhapatnam, AP · Academic',
-    date: 'Jan 2025 – May 2025',
+    company: 'Tata iQ',
+    role: 'GenAI Data Analytics Virtual Experience',
+    location: 'Forage · Virtual Experience',
+    date: '',
     bullets: [
-      'Led a 3-member team to build an AI-powered file management system.',
-      'Designed the system architecture and supervised weekly sprint reviews.',
-      'Presented project outcomes to faculty and industry mentors.',
+      'Evaluated AI-generated recommendations for accuracy, bias detection, and ethical compliance.',
+      'Designed risk assessment workflows using exploratory data analysis on large financial datasets.',
     ],
-    skills: ['Python', 'FastAPI', 'SQLite', 'Team Lead'],
+    skills: ['GenAI', 'Model Evaluation', 'EDA', 'Risk Assessment'],
   },
 ];
 
@@ -55,7 +52,7 @@ export default function ExperienceSection() {
             />
             <div className="experience-heading-row">
               <h2>{experience.company}</h2>
-              <span>{experience.date}</span>
+              {experience.date ? <span>{experience.date}</span> : null}
             </div>
             <p className="experience-role">{experience.role}</p>
             <p className="experience-location">{experience.location}</p>

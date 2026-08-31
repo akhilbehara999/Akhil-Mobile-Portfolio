@@ -3,24 +3,10 @@ import { motion } from 'framer-motion';
 const educationEntries = [
   {
     year: '2023 – 2027',
-    institution: 'Chaitanya Engineering College, AP',
+    institution: 'Chaitanya Engineering College',
     degree: 'B.Tech — Computer Science (AI & Data Science)',
-    grade: 'CGPA: 7.8 / 10.0',
-    note: 'Specialization in Artificial Intelligence & Data Science',
-  },
-  {
-    year: '2021 – 2023',
-    institution: 'Sri Chaitanya Junior College, AP',
-    degree: 'Intermediate — MPC',
-    grade: 'Percentage: 82%',
-    note: '',
-  },
-  {
-    year: '2020 – 2021',
-    institution: 'ZP High School, Srikakulam',
-    degree: 'SSC — Class X',
-    grade: 'GPA: 9.2 / 10.0',
-    note: '',
+    grade: '',
+    note: 'Relevant coursework: Data Structures, DBMS, Statistics, Machine Learning',
   },
 ];
 
@@ -56,7 +42,7 @@ export default function EducationSection() {
                 <span className="education-institution">{entry.institution}</span>
               </div>
               <h2>{entry.degree}</h2>
-              <p className="education-grade">{entry.grade}</p>
+              {entry.grade ? <p className="education-grade">{entry.grade}</p> : null}
               {entry.note ? <p className="education-note">{entry.note}</p> : null}
             </div>
           </motion.article>

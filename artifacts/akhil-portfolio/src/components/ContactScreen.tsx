@@ -41,6 +41,11 @@ export function ContactScreen() {
           <br />
           Find me on socials or drop a message below.
         </motion.p>
+        <p className="contact-details">
+          <a href="mailto:akhilbehara97@gmail.com">akhilbehara97@gmail.com</a>
+          <span aria-hidden="true">·</span>
+          <a href="tel:+917013432177">+91 7013432177</a>
+        </p>
         <motion.div
           className="workspace-divider"
           initial={{ opacity: 0 }}
@@ -54,8 +59,8 @@ export function ContactScreen() {
       <ContactForm />
 
       <footer className="contact-footer">
-        <p>Built by Akhil · 2024–2025</p>
-        <p>Andhra Pradesh, India</p>
+        <p>Built by Pondara Akhil Behara</p>
+        <p>Srikakulam, Andhra Pradesh, India</p>
       </footer>
     </motion.main>
   );

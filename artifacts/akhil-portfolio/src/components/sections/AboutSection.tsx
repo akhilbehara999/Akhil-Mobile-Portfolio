@@ -1,23 +1,23 @@
 import { motion } from 'framer-motion';
 
 const stats = [
-  { number: '6+', label: 'Projects' },
-  { number: '3', label: 'Semesters' },
-  { number: '4+', label: 'Certificates' },
+  { number: '4', label: 'Projects' },
+  { number: '1', label: 'Degree' },
+  { number: '3', label: 'Certifications' },
 ];
 
 const paragraphs = [
   {
     label: 'WHO I AM',
-    text: "I'm Akhil Behara, a Computer Science student specializing in AI & Data Science at Chaitanya Engineering College, Andhra Pradesh. I'm passionate about turning raw data into meaningful insights and building intelligent systems that solve real problems.",
+    text: 'I am Pondara Akhil Behara, a Computer Science (AI & Data Science) student at Chaitanya Engineering College. I build AI-powered applications, workflow automation systems, and data analytics solutions.',
   },
   {
-    label: "WHAT I'VE DONE",
-    text: "Over the past few semesters, I've built projects spanning data analysis, AI agents, and full-stack tools. From building intelligent file systems to data-driven dashboards, I focus on work that is both technically sound and practically useful.",
+    label: 'WHAT I BUILD',
+    text: 'My work includes Data Agent for automated insight generation, FileFlow for privacy-first file processing, ThinkRing for campus services, and data analysis projects built with Python, SQL, Tableau, and Supabase.',
   },
   {
-    label: 'WHY HIRE ME',
-    text: "I bring a builder's mindset to every problem — I don't just study concepts, I apply them. I'm a fast learner, comfortable with ambiguity, and I take ownership of what I build from idea to deployment. If you need someone who ships, I'm your person.",
+    label: 'WHAT I CARE ABOUT',
+    text: 'I am interested in AI evaluation, system testing, data validation, and scalable software development — especially work that turns complex data and AI systems into reliable, useful products.',
   },
 ];
 
@@ -36,9 +36,9 @@ export default function AboutSection() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
       >
-        <div className="about-avatar" aria-label="Akhil Behara initials">AB</div>
-        <h2>Akhil Behara</h2>
-        <p>CS Student · Data &amp; AI</p>
+        <div className="about-avatar" aria-label="Pondara Akhil Behara initials">AB</div>
+        <h2>Pondara Akhil Behara</h2>
+        <p>CS Student · AI &amp; Data Science</p>
         <span className="about-divider" aria-hidden="true" />
       </motion.div>
 

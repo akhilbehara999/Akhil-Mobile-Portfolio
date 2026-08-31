@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { SiGithub, SiInstagram } from 'react-icons/si';
+import { SiGithub, SiGoogledrive } from 'react-icons/si';
 import { FaLinkedinIn } from 'react-icons/fa6';
 
 const socialLinks = [
@@ -15,17 +15,17 @@ const socialLinks = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
-    href: 'https://linkedin.com/in/akhil-behara',
+    href: 'https://www.linkedin.com/in/pondara-akhil-behara-016126381',
     icon: FaLinkedinIn,
     float: [0, -14, 0],
     duration: 2.8,
     delay: 0.4,
   },
   {
-    id: 'instagram',
-    label: 'Instagram',
-    href: 'https://instagram.com/akhil_behara',
-    icon: SiInstagram,
+    id: 'drive',
+    label: 'Certifications',
+    href: 'https://drive.google.com/drive/folders/1NILiLOGCmGQi88opwFHKlOdwTx4rjTDo?usp=drive_link',
+    icon: SiGoogledrive,
     float: [0, -8, 0],
     duration: 3.6,
     delay: 0.8,

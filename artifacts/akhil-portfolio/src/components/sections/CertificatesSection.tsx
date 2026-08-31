@@ -4,10 +4,9 @@ import { FaLinkedinIn } from 'react-icons/fa6';
 import { SiGoogledrive } from 'react-icons/si';
 
 const certificates = [
-  { id: 'cert-1', title: 'Python for Data Science and AI', issuer: 'IBM — Coursera', date: 'March 2024' },
-  { id: 'cert-2', title: 'Machine Learning Specialization', issuer: 'DeepLearning.AI — Coursera', date: 'June 2024' },
-  { id: 'cert-3', title: 'SQL for Data Analysis', issuer: 'Google — Coursera', date: 'August 2024' },
-  { id: 'cert-4', title: 'Data Visualization with Tableau', issuer: 'Tableau — Coursera', date: 'November 2024' },
+  { id: 'cert-1', title: 'Anthropic Model Context Protocol (MCP)', issuer: 'Anthropic', date: '' },
+  { id: 'cert-2', title: 'Deloitte Data Analytics & Forensic Technology', issuer: 'Forage', date: '' },
+  { id: 'cert-3', title: 'Tata iQ GenAI Powered Data Analytics', issuer: 'Forage', date: '' },
 ];
 
 export default function CertificatesSection() {
@@ -35,7 +34,7 @@ export default function CertificatesSection() {
             <div className="certificate-details">
               <h2>{certificate.title}</h2>
               <p>{certificate.issuer}</p>
-              <span>{certificate.date}</span>
+              {certificate.date ? <span>{certificate.date}</span> : null}
             </div>
           </motion.article>
         ))}
@@ -50,7 +49,7 @@ export default function CertificatesSection() {
         <h2 className="section-content-label">VIEW ALL CERTIFICATES</h2>
         <motion.a
           className="certificate-link certificate-linkedin"
-          href="https://linkedin.com/in/akhil-behara"
+          href="https://www.linkedin.com/in/pondara-akhil-behara-016126381"
           target="_blank"
           rel="noreferrer"
           whileTap={{ scale: 0.97 }}
@@ -60,7 +59,7 @@ export default function CertificatesSection() {
         </motion.a>
         <motion.a
           className="certificate-link certificate-drive"
-          href="https://drive.google.com/drive/my-drive"
+          href="https://drive.google.com/drive/folders/1NILiLOGCmGQi88opwFHKlOdwTx4rjTDo?usp=drive_link"
           target="_blank"
           rel="noreferrer"
           whileTap={{ scale: 0.97 }}
