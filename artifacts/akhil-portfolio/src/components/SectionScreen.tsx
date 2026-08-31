@@ -1,15 +1,32 @@
-import { motion } from 'framer-motion';
-import { ArrowLeft, Construction } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
+import type { ComponentType } from 'react';
 import { workspaceCards, type SectionId } from './WorkspaceScreen';
+import AboutSection from './sections/AboutSection';
+import CertificatesSection from './sections/CertificatesSection';
+import EducationSection from './sections/EducationSection';
+import ExperienceSection from './sections/ExperienceSection';
+import ProjectsSection from './sections/ProjectsSection';
+import SkillsSection from './sections/SkillsSection';
 
 type SectionScreenProps = {
   sectionId: SectionId;
   onBack: () => void;
 };
 
+const sectionMap = {
+  about: AboutSection,
+  skills: SkillsSection,
+  education: EducationSection,
+  projects: ProjectsSection,
+  experience: ExperienceSection,
+  certificates: CertificatesSection,
+} satisfies Record<SectionId, ComponentType>;
+
 export function SectionScreen({ sectionId, onBack }: SectionScreenProps) {
   const section = workspaceCards.find((card) => card.id === sectionId) ?? workspaceCards[0];
   const Icon = section.icon;
+  const SectionContent = sectionMap[sectionId];
 
   return (
     <motion.main
@@ -53,30 +70,9 @@ export function SectionScreen({ sectionId, onBack }: SectionScreenProps) {
         aria-hidden="true"
       />
 
-      <motion.section
-        className="in-progress-card"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-        aria-label={`${section.title} is in progress`}
-      >
-        <Construction size={32} strokeWidth={1.6} aria-hidden="true" />
-        <h2>Being crafted</h2>
-        <p>This section is being designed with care. Check back soon.</p>
-        <span className="progress-shimmer" aria-hidden="true" />
-      </motion.section>
-
-      <motion.button
-        type="button"
-        className="section-back section-back-bottom"
-        onClick={onBack}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, delay: 0.34 }}
-      >
-        <ArrowLeft size={15} strokeWidth={2} />
-        Back to Workspace
-      </motion.button>
+      <AnimatePresence mode="wait" initial={false}>
+        <SectionContent key={sectionId} />
+      </AnimatePresence>
     </motion.main>
   );
 }

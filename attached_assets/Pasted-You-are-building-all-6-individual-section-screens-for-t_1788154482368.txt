@@ -1,0 +1,775 @@
+You are building all 6 individual section screens for the Workspace area
+of the existing Android-style portfolio app. These screens open when a
+card is tapped in WorkspaceScreen.tsx.
+
+Everything must be consistent with the existing app:
+same color system, same fonts, same animations, same bottom nav behavior.
+
+══════════════════════════════════════════
+WHAT ALREADY EXISTS — DO NOT CHANGE
+══════════════════════════════════════════
+
+- App.tsx manages currentScreen + currentSection state
+- SectionScreen.tsx currently shows an "In Progress" placeholder
+- BottomNav.tsx, HomeScreen.tsx, WorkspaceScreen.tsx, ContactScreen.tsx
+  are all complete and must not be touched
+- theme.ts has all colors and typography defined
+- Framer Motion + Recharts + Lucide + react-icons are installed
+
+You are REPLACING SectionScreen.tsx with a proper router that renders
+the correct section component based on currentSection value.
+
+New file structure to create:
+  src/components/sections/AboutSection.tsx
+  src/components/sections/SkillsSection.tsx
+  src/components/sections/EducationSection.tsx
+  src/components/sections/ProjectsSection.tsx
+  src/components/sections/ExperienceSection.tsx
+  src/components/sections/CertificatesSection.tsx
+
+Update SectionScreen.tsx to:
+  import all 6 section components and render the correct one
+  based on the sectionId prop passed from App.tsx.
+  Keep the back button and header pattern already established.
+
+══════════════════════════════════════════
+SHARED SECTION LAYOUT PATTERN
+══════════════════════════════════════════
+
+Every section screen follows this shell (already in SectionScreen.tsx):
+
+  ┌─────────────────────────────┐
+  │ ← Workspace    [icon] Title │  ← back row + section header
+  │ ─────────────────────────── │  ← divider
+  │                             │
+  │   [section-specific content]│  ← scrollable
+  │                             │
+  │ [floating bottom nav]       │
+  └─────────────────────────────┘
+
+Outer padding: 24px left/right
+Padding-top: 52px (for back button row)
+Bottom padding: 100px
+Scroll: vertical, full height
+
+All section content fades up on mount using Framer Motion.
+Base animation: opacity 0→1, y: 16→0, duration 400ms, ease easeOut
+Stagger between content blocks: 80ms
+
+══════════════════════════════════════════
+COLOR SYSTEM — SAME AS ENTIRE APP
+══════════════════════════════════════════
+
+Background:       #F8F5F2
+Surface:          #FFFFFF
+Surface Muted:    #F2EDE8
+Primary:          #AA2222
+Accent:           #E07020
+Text Primary:     #1A1A1A
+Text Secondary:   #5C5C5C
+Text Muted:       #9A9A9A
+Border:           #E8E2DC
+
+══════════════════════════════════════════
+1. ABOUT SECTION — AboutSection.tsx
+══════════════════════════════════════════
+
+──────────────────────────────────────────
+AVATAR BLOCK
+──────────────────────────────────────────
+
+Centered, margin-top: 28px
+
+Avatar circle:
+  Size: 110px × 110px
+  Border-radius: 50%
+  Background: linear-gradient(135deg, #AA2222 0%, #E07020 100%)
+  Shadow: 0 8px 28px rgba(170,34,34,0.30)
+  Border: 3px solid #FFFFFF
+
+Inside the circle:
+  Initials "AB" — Space Grotesk 36px bold, white, centered
+
+  NOTE: When Akhil provides his real photo, replace this with:
+    <img src="/assets/akhil.jpg" />
+    Same size, same border-radius, same border, object-fit: cover
+
+Below avatar (margin-top: 14px, centered):
+  Name: "Akhil Behara" — Space Grotesk 22px bold, Text Primary
+  Role: "CS Student · Data & AI" — Inter 14px, #AA2222, margin-top 4px
+
+Small divider: 40px wide, 2px, background #AA2222, centered, margin-top 14px
+
+──────────────────────────────────────────
+STATS ROW
+──────────────────────────────────────────
+
+Margin-top: 24px
+3 stat cards in a row, equal width, gap 10px
+
+Each stat card:
+  Background: #FFFFFF
+  Border: 1px solid #E8E2DC
+  Border-radius: 14px
+  Padding: 14px 8px
+  Text-align: center
+
+  Top: number — Space Grotesk 24px bold, #AA2222
+  Bottom: label — Inter 11px, Text Muted, uppercase, letter-spacing 0.06em
+
+Stat data:
+  { number: "6+",  label: "Projects" }
+  { number: "3",   label: "Semesters" }
+  { number: "4+",  label: "Certificates" }
+
+──────────────────────────────────────────
+3 PARAGRAPHS
+──────────────────────────────────────────
+
+Margin-top: 28px
+Each paragraph block has:
+  Label above: Inter 11px uppercase, letter-spacing 0.1em, #AA2222, margin-bottom 8px
+  Text: Inter 14px, Text Secondary, line-height 1.7
+
+Gap between paragraph blocks: 20px
+
+Paragraph 1 — WHO I AM
+  Label: "WHO I AM"
+  Text: "I'm Akhil Behara, a Computer Science student specializing in
+  AI & Data Science at Chaitanya Engineering College, Andhra Pradesh.
+  I'm passionate about turning raw data into meaningful insights and
+  building intelligent systems that solve real problems."
+
+Paragraph 2 — WHAT I'VE DONE
+  Label: "WHAT I'VE DONE"
+  Text: "Over the past few semesters, I've built projects spanning
+  data analysis, AI agents, and full-stack tools. From building
+  intelligent file systems to data-driven dashboards, I focus on
+  work that is both technically sound and practically useful."
+
+Paragraph 3 — WHY HIRE ME
+  Label: "WHY HIRE ME"
+  Text: "I bring a builder's mindset to every problem — I don't
+  just study concepts, I apply them. I'm a fast learner, comfortable
+  with ambiguity, and I take ownership of what I build from idea
+  to deployment. If you need someone who ships, I'm your person."
+
+NOTE: These are placeholder paragraphs.
+      Akhil should replace the text content with his own words.
+
+──────────────────────────────────────────
+ABOUT SECTION — ANIMATION ORDER
+──────────────────────────────────────────
+
+  Avatar: scale 0.85→1 + fade, 0ms
+  Name + role: fade up, 100ms
+  Stats row: fade up, 200ms (stagger each card by 60ms)
+  Para 1: fade up, 320ms
+  Para 2: fade up, 400ms
+  Para 3: fade up, 480ms
+
+══════════════════════════════════════════
+2. SKILLS SECTION — SkillsSection.tsx
+══════════════════════════════════════════
+
+NO progress bars. NO percentage numbers.
+NO complex animations — ONLY fade in on mount, fade out on unmount.
+Simple, clean, icon-forward.
+
+──────────────────────────────────────────
+LAYOUT
+──────────────────────────────────────────
+
+Margin-top: 24px
+
+Three groups rendered top to bottom, gap 24px between groups.
+
+Each group:
+  Group label: Inter 12px uppercase, letter-spacing 0.1em, Text Muted, margin-bottom 14px
+  Icon grid: CSS grid, 4 columns, gap 14px
+
+Each skill item in the grid:
+  Flex column, align center, gap 8px
+  
+  Icon container:
+    Size: 52px × 52px
+    Border-radius: 14px
+    Background: #FFFFFF
+    Border: 1px solid #E8E2DC
+    Shadow: 0 2px 8px rgba(0,0,0,0.06)
+    Display: flex, align+justify center
+
+    Inside: skill icon, 26px
+    Use react-icons/si (Simple Icons) for brand icons
+    Use react-icons/di or Lucide fallback for generic ones
+
+  Label below icon:
+    Inter 11px, weight 500, Text Secondary, text-align center
+
+──────────────────────────────────────────
+SKILL DATA
+──────────────────────────────────────────
+
+Group 1 — LANGUAGES
+  Python       → SiPython        (#3776AB)
+  SQL          → SiMysql         (#4479A1)
+  JavaScript   → SiJavascript    (#F7DF1E)
+  TypeScript   → SiTypescript    (#3178C6)
+  HTML         → SiHtml5         (#E34F26)
+  CSS          → SiCss3          (#1572B6)
+  Java         → SiOpenjdk       (#ED8B00)
+  C            → SiC             (#A8B9CC)
+
+Group 2 — TOOLS
+  Git          → SiGit           (#F05032)
+  GitHub       → SiGithub        (#181717)
+  VS Code      → SiVisualstudiocode (#007ACC)
+  Figma        → SiFigma         (#F24E1E)
+  Jupyter      → SiJupyter       (#F37626)
+  Pandas       → SiPandas        (#150458)
+  NumPy        → SiNumpy         (#013243)
+  Tableau      → SiTableau       (#E97627)
+
+Group 3 — FRAMEWORKS
+  React        → SiReact         (#61DAFB)
+  Tailwind CSS → SiTailwindcss   (#06B6D4)
+  Node.js      → SiNodedotjs     (#339933)
+  Flask        → SiFlask         (#000000)
+  TensorFlow   → SiTensorflow    (#FF6F00)
+  Scikit-learn → SiScikitlearn   (#F7931E)
+  Streamlit    → SiStreamlit     (#FF4B4B)
+  FastAPI      → SiFastapi       (#009688)
+
+IMPORTANT: Each icon renders in its own brand color (listed above),
+not in #AA2222. The brand colors make the skills grid visually rich
+and instantly recognizable. Do NOT override icon colors to the app theme.
+
+──────────────────────────────────────────
+ANIMATION
+──────────────────────────────────────────
+
+On mount: each skill item fades in with a stagger of 30ms per item.
+  opacity 0→1, duration 300ms
+On unmount (AnimatePresence): fade out, opacity 1→0, duration 200ms
+No y-translation, no scale — just clean fade in/out only.
+
+══════════════════════════════════════════
+3. EDUCATION SECTION — EducationSection.tsx
+══════════════════════════════════════════
+
+Timeline layout — most recent at top, oldest at bottom.
+Vertical line on the left side connecting all entries.
+
+──────────────────────────────────────────
+TIMELINE STRUCTURE
+──────────────────────────────────────────
+
+Margin-top: 24px
+
+Outer container: position relative, padding-left: 28px
+
+Vertical timeline line:
+  Position: absolute, left: 10px, top: 0, bottom: 0
+  Width: 2px
+  Background: linear-gradient(to bottom, #AA2222, #E07020, #E8E2DC)
+
+Each entry:
+  Position: relative, margin-bottom: 24px
+
+  Timeline dot (left side, on the line):
+    Position: absolute, left: -23px, top: 16px
+    Size: 12px × 12px circle
+    Background: #AA2222
+    Border: 2px solid #FFFFFF
+    Shadow: 0 0 0 3px rgba(170,34,34,0.20)
+
+  Entry card:
+    Background: #FFFFFF
+    Border: 1px solid #E8E2DC
+    Border-radius: 16px
+    Padding: 16px
+    Shadow: 0 2px 10px rgba(0,0,0,0.06)
+
+    Card contents:
+      Row 1: Year badge + Institution on same line, space-between
+        Year badge:
+          Background: rgba(170,34,34,0.08)
+          Border: 1px solid rgba(170,34,34,0.20)
+          Border-radius: 20px
+          Padding: 3px 10px
+          Text: Inter 11px, #AA2222, weight 600
+
+        Institution: Inter 12px, Text Muted
+
+      Row 2 (margin-top: 8px):
+        Degree/Course name — Space Grotesk 15px, weight 600, Text Primary
+
+      Row 3 (margin-top: 4px):
+        Grade / CGPA — Inter 13px, Text Secondary
+
+      Row 4 (margin-top: 6px, optional):
+        Short note — Inter 12px, Text Muted, italic
+
+──────────────────────────────────────────
+EDUCATION DATA (placeholder — Akhil to replace)
+──────────────────────────────────────────
+
+Entry 1 (most recent — top):
+  year: "2023 – 2027"
+  institution: "Chaitanya Engineering College, AP"
+  degree: "B.Tech — Computer Science (AI & Data Science)"
+  grade: "CGPA: 7.8 / 10.0"
+  note: "Specialization in Artificial Intelligence & Data Science"
+
+Entry 2:
+  year: "2021 – 2023"
+  institution: "Sri Chaitanya Junior College, AP"
+  degree: "Intermediate — MPC"
+  grade: "Percentage: 82%"
+  note: ""
+
+Entry 3:
+  year: "2020 – 2021"
+  institution: "ZP High School, Srikakulam"
+  degree: "SSC — Class X"
+  grade: "GPA: 9.2 / 10.0"
+  note: ""
+
+──────────────────────────────────────────
+ANIMATION
+──────────────────────────────────────────
+
+Timeline line draws from top to bottom using a height 0→100%
+animation over 600ms on mount.
+Each entry card fades up with 150ms stagger after the line animates.
+
+══════════════════════════════════════════
+4. PROJECTS SECTION — ProjectsSection.tsx
+══════════════════════════════════════════
+
+Two views:
+  A. Project list — cards in a vertical stack
+  B. Project detail — full screen for a tapped project
+
+Use local state: selectedProject: ProjectData | null
+  null → show list view
+  set → show detail view
+
+──────────────────────────────────────────
+A. PROJECT LIST VIEW
+──────────────────────────────────────────
+
+Margin-top: 24px
+Vertical stack of cards, gap 14px
+
+Each project card:
+  Background: #FFFFFF
+  Border: 1px solid #E8E2DC
+  Border-radius: 16px
+  Padding: 18px
+  Shadow: 0 2px 10px rgba(0,0,0,0.06)
+  Tap: sets selectedProject → opens detail view
+  whileTap: scale 0.98
+
+Card contents:
+
+  Row 1: Project title + status badge (space-between)
+    Title: Space Grotesk 16px bold, Text Primary
+    Status badge:
+      "Completed" → background rgba(34,139,34,0.10), color #228B22
+      "In Progress" → background rgba(224,112,32,0.10), color #E07020
+      Border-radius: 20px, padding 3px 10px, Inter 11px weight 600
+
+  Row 2 (margin-top: 8px):
+    Short description — Inter 13px, Text Secondary, line-height 1.5
+    Max 2 lines, CSS line-clamp 2
+
+  Row 3 (margin-top: 12px):
+    Tech tags — flex wrap, gap 6px
+    Each tag:
+      Background: #F2EDE8
+      Border: 1px solid #E8E2DC
+      Border-radius: 20px
+      Padding: 3px 10px
+      Inter 11px, Text Secondary
+
+  Row 4 (margin-top: 14px): flex row, space-between, align center
+    Left: "View Details →" — Inter 12px, #AA2222, weight 500
+    Right: link icons row (only show icons that have links)
+      If sourceCode exists: SiGithub icon, 16px, Text Muted, tappable → opens link
+      If demo exists: Lucide "ExternalLink" icon, 16px, Text Muted, tappable → opens link
+      Tap on icons: stopPropagation (don't open detail view)
+
+──────────────────────────────────────────
+PROJECT DATA (placeholder — Akhil to replace)
+──────────────────────────────────────────
+
+const projects = [
+  {
+    id: "ai-analyst",
+    title: "AI Data Analyst",
+    status: "Completed",
+    shortDesc: "An intelligent data analysis agent that interprets
+                natural language queries and generates insights.",
+    longDesc: "Full description placeholder — replace with actual
+               project details, challenges faced, and outcomes.",
+    tech: ["Python", "Pandas", "OpenAI API", "Streamlit"],
+    sourceCode: "https://github.com/akhilbehara999/ai-analyst",
+    demo: "",
+  },
+  {
+    id: "data-agent",
+    title: "Data Agent",
+    status: "Completed",
+    shortDesc: "A multi-agent system for automated data processing
+                and reporting pipelines.",
+    longDesc: "Full description placeholder.",
+    tech: ["Python", "LangChain", "FastAPI", "SQL"],
+    sourceCode: "https://github.com/akhilbehara999/data-agent",
+    demo: "",
+  },
+  {
+    id: "fileflow",
+    title: "FileFlow",
+    status: "Completed",
+    shortDesc: "An intelligent file management CLI that organizes,
+                renames, and classifies files automatically.",
+    longDesc: "Full description placeholder.",
+    tech: ["Python", "Click", "Watchdog", "SQLite"],
+    sourceCode: "https://github.com/akhilbehara999/fileflow",
+    demo: "",
+  },
+  {
+    id: "portfolio",
+    title: "This Portfolio",
+    status: "In Progress",
+    shortDesc: "Android-style personal portfolio built as a React
+                mobile web app with real data visualizations.",
+    longDesc: "Full description placeholder.",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    sourceCode: "https://github.com/akhilbehara999/my-portfolio",
+    demo: "https://akhilbehara999.github.io/my-portfolio/",
+  },
+]
+
+──────────────────────────────────────────
+B. PROJECT DETAIL VIEW
+──────────────────────────────────────────
+
+Replaces list view when a card is tapped.
+No new route — just conditional render inside ProjectsSection.tsx.
+
+Top row (same as section shell back button pattern):
+  "← Projects" — Inter 13px, #AA2222
+  On tap: selectedProject = null → returns to list
+
+Content (margin-top: 20px):
+
+  Project title — Space Grotesk 24px bold, Text Primary
+  Status badge (same as list view)
+
+  Tech tags row (margin-top: 12px) — same tag style as list
+
+  Divider (margin-top: 16px) — full width, 1px, Border color
+
+  Section label "ABOUT THIS PROJECT" — 12px uppercase, Text Muted, margin-top 16px
+  Long description — Inter 14px, Text Secondary, line-height 1.7, margin-top 8px
+
+  Links section (margin-top: 24px):
+    If sourceCode exists:
+      Full-width outlined button:
+        Border: 1.5px solid #AA2222
+        Border-radius: 12px, padding 14px
+        Left: SiGithub icon 18px #AA2222 + "Source Code" — Space Grotesk 14px #AA2222
+        Right: Lucide "ExternalLink" 16px #AA2222
+        On tap: opens sourceCode URL in new tab
+        whileTap: scale 0.97
+
+    If demo exists (margin-top: 10px):
+      Full-width filled button:
+        Background: #AA2222
+        Border-radius: 12px, padding 14px
+        Left: Lucide "Play" icon 18px white + "Live Demo" — Space Grotesk 14px white
+        Right: Lucide "ExternalLink" 16px white
+        On tap: opens demo URL in new tab
+        whileTap: scale 0.97
+
+Animation on detail view mount:
+  Title + badge: fade up, 0ms
+  Tags: fade up, 80ms
+  Description: fade up, 160ms
+  Link buttons: fade up, 240ms
+
+══════════════════════════════════════════
+5. EXPERIENCE SECTION — ExperienceSection.tsx
+══════════════════════════════════════════
+
+This must look professional enough that a recruiter stops scrolling.
+Clean, structured, typographically strong. No gimmicks.
+
+──────────────────────────────────────────
+LAYOUT
+──────────────────────────────────────────
+
+Margin-top: 24px
+Vertical stack of experience cards, gap 16px
+
+──────────────────────────────────────────
+EXPERIENCE CARD DESIGN
+──────────────────────────────────────────
+
+Each card:
+  Background: #FFFFFF
+  Border: 1px solid #E8E2DC
+  Border-radius: 18px
+  Padding: 20px
+  Shadow: 0 2px 12px rgba(0,0,0,0.07)
+
+  Left accent bar:
+    Position: absolute, left: 0, top: 16px, bottom: 16px
+    Width: 3px
+    Background: linear-gradient(to bottom, #AA2222, #E07020)
+    Border-radius: 0 2px 2px 0
+  Card position: relative, overflow hidden
+
+Card contents (top to bottom):
+
+  Row 1: Company name + date range (space-between, align flex-start)
+    Company: Space Grotesk 16px bold, Text Primary
+    Date: Inter 12px, Text Muted, flex-shrink 0, margin-left 8px
+
+  Row 2 (margin-top: 4px):
+    Role title — Inter 14px, weight 600, #AA2222
+
+  Row 3 (margin-top: 4px):
+    Location + type — Inter 12px, Text Muted
+    Format: "Srikakulam, AP · Internship"
+
+  Thin divider (margin-top: 12px): 1px solid #E8E2DC
+
+  Row 4 (margin-top: 12px):
+    Label: "KEY RESPONSIBILITIES" — Inter 10px uppercase, letter-spacing 0.1em, Text Muted
+    margin-bottom: 8px
+
+  Bullet list (margin-top: 8px):
+    3–4 bullet points per experience
+    Each bullet:
+      Flex row, align flex-start, gap 8px
+      Left: small 5px × 5px filled circle, color #AA2222, margin-top 6px, flex-shrink 0
+      Text: Inter 13px, Text Secondary, line-height 1.6
+
+  Row 5 (margin-top: 14px): flex wrap, gap 6px
+    Skill tags (same style as project tech tags)
+
+──────────────────────────────────────────
+EXPERIENCE DATA (placeholder — Akhil to replace)
+──────────────────────────────────────────
+
+Entry 1 (most recent):
+  company: "TechStart Solutions"
+  role: "Data Analyst Intern"
+  location: "Remote · Internship"
+  date: "Jun 2025 – Aug 2025"
+  bullets: [
+    "Analyzed large datasets using Python and Pandas to identify business trends.",
+    "Built interactive dashboards in Tableau for weekly stakeholder reviews.",
+    "Automated data cleaning pipelines reducing manual effort by 60%.",
+    "Collaborated with senior analysts to deliver monthly performance reports.",
+  ]
+  skills: ["Python", "Pandas", "Tableau", "SQL"]
+
+Entry 2:
+  company: "College Innovation Lab"
+  role: "AI Project Lead"
+  location: "Visakhapatnam, AP · Academic"
+  date: "Jan 2025 – May 2025"
+  bullets: [
+    "Led a 3-member team to build an AI-powered file management system.",
+    "Designed the system architecture and supervised weekly sprint reviews.",
+    "Presented project outcomes to faculty and industry mentors.",
+  ]
+  skills: ["Python", "FastAPI", "SQLite", "Team Lead"]
+
+NOTE: Akhil must replace with real experience details.
+These entries follow a realistic professional format.
+
+──────────────────────────────────────────
+ANIMATION
+──────────────────────────────────────────
+
+Cards fade up with 120ms stagger.
+Left accent bar slides in from top (height 0→100%) over 400ms on mount.
+This gives a subtle "loading" feel without being distracting.
+
+══════════════════════════════════════════
+6. CERTIFICATES SECTION — CertificatesSection.tsx
+══════════════════════════════════════════
+
+──────────────────────────────────────────
+LAYOUT
+──────────────────────────────────────────
+
+Margin-top: 24px
+
+4 certificate cards stacked vertically, gap 14px
+
+Below all 4 cards: 2 link buttons (LinkedIn + Google Drive)
+
+──────────────────────────────────────────
+CERTIFICATE CARD
+──────────────────────────────────────────
+
+Each card:
+  Background: #FFFFFF
+  Border: 1px solid #E8E2DC
+  Border-radius: 16px
+  Overflow: hidden
+  Shadow: 0 2px 10px rgba(0,0,0,0.06)
+
+  Top section — certificate image:
+    Width: 100%
+    Height: 160px
+    Object-fit: cover
+    Background: #F2EDE8 (placeholder if image not loaded)
+    
+    Placeholder state (no image yet):
+      Flex center, column
+      Lucide "FileCheck" icon, 36px, #AA2222
+      Below icon: "Certificate Preview" — Inter 12px, Text Muted, margin-top 8px
+
+  Bottom section — padding: 14px
+
+    Row 1: Course name — Space Grotesk 14px bold, Text Primary
+    Row 2 (margin-top: 4px): Issuing platform — Inter 12px, Text Muted
+    Row 3 (margin-top: 4px): Date — Inter 11px, Text Muted
+
+──────────────────────────────────────────
+CERTIFICATE DATA (placeholder — Akhil to replace)
+──────────────────────────────────────────
+
+const certificates = [
+  {
+    id: "cert-1",
+    title: "Python for Data Science and AI",
+    issuer: "IBM — Coursera",
+    date: "March 2024",
+    image: "/assets/certificates/cert-1.jpg",
+  },
+  {
+    id: "cert-2",
+    title: "Machine Learning Specialization",
+    issuer: "DeepLearning.AI — Coursera",
+    date: "June 2024",
+    image: "/assets/certificates/cert-2.jpg",
+  },
+  {
+    id: "cert-3",
+    title: "SQL for Data Analysis",
+    issuer: "Google — Coursera",
+    date: "August 2024",
+    image: "/assets/certificates/cert-3.jpg",
+  },
+  {
+    id: "cert-4",
+    title: "Data Visualization with Tableau",
+    issuer: "Tableau — Coursera",
+    date: "November 2024",
+    image: "/assets/certificates/cert-4.jpg",
+  },
+]
+
+NOTE: Replace image paths with actual certificate screenshot paths.
+      Place images in /public/assets/certificates/
+
+──────────────────────────────────────────
+VIEW ALL CERTIFICATES LINKS
+──────────────────────────────────────────
+
+Below all 4 cards, margin-top: 24px:
+
+Label: "VIEW ALL CERTIFICATES" — Inter 12px uppercase, Text Muted, 
+       letter-spacing 0.1em, text-align center, margin-bottom 14px
+
+Two buttons stacked vertically, gap 10px, full width:
+
+Button 1 — LinkedIn:
+  Background: #0A66C2
+  Border-radius: 12px, padding 14px
+  Flex row, space-between
+  Left: SiLinkedin icon 18px white + "View on LinkedIn" — Space Grotesk 14px bold white
+  Right: Lucide "ExternalLink" 16px white
+  On tap: opens Akhil's LinkedIn profile in new tab
+  whileTap: scale 0.97
+
+Button 2 — Google Drive:
+  Background: #FFFFFF
+  Border: 1.5px solid #E8E2DC
+  Border-radius: 12px, padding 14px
+  Flex row, space-between
+  Left: SiGoogledrive icon 18px #E07020 + "View on Drive" — Space Grotesk 14px bold Text Primary
+  Right: Lucide "ExternalLink" 16px Text Muted
+  On tap: opens Google Drive folder link in new tab
+  whileTap: scale 0.97
+
+NOTE: Replace with Akhil's actual LinkedIn URL and Drive folder URL.
+
+──────────────────────────────────────────
+ANIMATION
+──────────────────────────────────────────
+
+Certificate cards stagger in with 80ms between each.
+Link buttons fade up after all cards are visible (320ms delay).
+
+══════════════════════════════════════════
+SECTIONSCREEN.tsx — UPDATED ROUTER
+══════════════════════════════════════════
+
+import AboutSection from './sections/AboutSection'
+import SkillsSection from './sections/SkillsSection'
+import EducationSection from './sections/EducationSection'
+import ProjectsSection from './sections/ProjectsSection'
+import ExperienceSection from './sections/ExperienceSection'
+import CertificatesSection from './sections/CertificatesSection'
+
+const sectionMap = {
+  about:        { title: "About",        icon: "User",          Component: AboutSection },
+  skills:       { title: "Skills",       icon: "Code2",         Component: SkillsSection },
+  education:    { title: "Education",    icon: "GraduationCap", Component: EducationSection },
+  projects:     { title: "Projects",     icon: "FolderOpen",    Component: ProjectsSection },
+  experience:   { title: "Experience",   icon: "Briefcase",     Component: ExperienceSection },
+  certificates: { title: "Certificates", icon: "Award",         Component: CertificatesSection },
+}
+
+Render:
+  Top shell (back button + header + divider) — same as before
+  Below divider: render <Component /> from sectionMap[sectionId]
+  AnimatePresence wraps the Component for clean mount/unmount
+
+══════════════════════════════════════════
+QA CHECKLIST
+══════════════════════════════════════════
+
+□ All 6 section screens render correctly from Workspace card taps
+□ Back button on each section returns to Workspace card grid
+□ About: avatar circle with "AB" initials centered, gradient background
+□ About: all 3 paragraphs show with correct section labels
+□ About: 3 stat cards show correct numbers and labels
+□ Skills: 3 groups render with correct icons in brand colors
+□ Skills: NO progress bars anywhere in Skills section
+□ Skills: fade-in-only animation, no movement
+□ Education: vertical timeline line visible on left side
+□ Education: 3 entries render top to bottom (most recent first)
+□ Projects: list view shows 4 project cards
+□ Projects: tapping a card opens detail view
+□ Projects: "← Projects" back returns to list
+□ Projects: Source Code / Demo buttons only appear when links exist
+□ Projects: tapping GitHub/Demo icons on list view opens links WITHOUT opening detail
+□ Experience: left red accent bar visible on each card
+□ Experience: bullet points with red dot markers
+□ Certificates: 4 cards with image placeholder state showing FileCheck icon
+□ Certificates: LinkedIn button is blue (#0A66C2)
+□ Certificates: Drive button is white with outlined border
+□ All section screens scroll independently without affecting bottom nav
+□ Bottom nav stays fixed and correct throughout all 6 sections
+□ No horizontal overflow at 390px viewport width
+□ Home, Workspace, Contact screens are completely unchanged
