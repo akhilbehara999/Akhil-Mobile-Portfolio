@@ -26,6 +26,7 @@ import {
 import { SectionScreen } from './components/SectionScreen';
 import { ContactScreen } from './components/ContactScreen';
 import { WorkspaceScreen, type SectionId } from './components/WorkspaceScreen';
+import { TabletLayout } from './tablet/TabletLayout';
 
 type Screen = 'home' | 'workspace' | 'contact' | 'section';
 type NavScreen = Exclude<Screen, 'section'>;
@@ -382,19 +383,21 @@ function DesktopComingSoon() {
   );
 }
 
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(false);
+function useViewportClass() {
+  const [viewport, setViewport] = useState<'mobile' | 'tablet' | 'desktop'>('mobile');
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 769px)');
-    const updateViewport = () => setIsDesktop(mediaQuery.matches);
+    const updateViewport = () => {
+      const width = window.innerWidth;
+      setViewport(width >= 1025 ? 'desktop' : width >= 769 ? 'tablet' : 'mobile');
+    };
 
     updateViewport();
-    mediaQuery.addEventListener('change', updateViewport);
-    return () => mediaQuery.removeEventListener('change', updateViewport);
+    window.addEventListener('resize', updateViewport);
+    return () => window.removeEventListener('resize', updateViewport);
   }, []);
 
-  return isDesktop;
+  return viewport;
 }
 
 function MobileExperience({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) {
@@ -436,7 +439,7 @@ function MobileExperience({ theme, onToggleTheme }: { theme: Theme; onToggleThem
 }
 
 function App() {
-  const isDesktop = useIsDesktop();
+  const viewport = useViewportClass();
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
@@ -449,7 +452,17 @@ function App() {
 
   return (
     <>
-      {isDesktop ? <DesktopComingSoon /> : <MobileExperience theme={theme} onToggleTheme={() => setTheme((current) => current === 'light' ? 'dark' : 'light')} />}
+      {viewport === 'desktop' ? (
+        <DesktopComingSoon />
+      ) : viewport === 'tablet' ? (
+        <TabletLayout
+          theme={theme}
+          onToggleTheme={() => setTheme((current) => current === 'light' ? 'dark' : 'light')}
+          homeContent={(onExplore) => <HomeScreen onExplore={onExplore} theme={theme} onToggleTheme={() => setTheme((current) => current === 'light' ? 'dark' : 'light')} />}
+        />
+      ) : (
+        <MobileExperience theme={theme} onToggleTheme={() => setTheme((current) => current === 'light' ? 'dark' : 'light')} />
+      )}
     </>
   );
 }
