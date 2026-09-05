@@ -389,7 +389,7 @@ function useViewportClass() {
   useEffect(() => {
     const updateViewport = () => {
       const width = window.innerWidth;
-      setViewport(width >= 1025 ? 'desktop' : width >= 769 ? 'tablet' : 'mobile');
+      setViewport(width >= 1200 ? 'desktop' : width >= 769 ? 'tablet' : 'mobile');
     };
 
     updateViewport();
