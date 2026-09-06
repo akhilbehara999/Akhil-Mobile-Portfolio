@@ -27,6 +27,7 @@ import { SectionScreen } from './components/SectionScreen';
 import { ContactScreen } from './components/ContactScreen';
 import { WorkspaceScreen, type SectionId } from './components/WorkspaceScreen';
 import { TabletLayout } from './tablet/TabletLayout';
+import { DesktopLayout } from './desktop/DesktopLayout';
 
 type Screen = 'home' | 'workspace' | 'contact' | 'section';
 type NavScreen = Exclude<Screen, 'section'>;
@@ -370,19 +371,6 @@ function MobileNav({ screen, onNavigate }: { screen: Screen; onNavigate: (screen
   );
 }
 
-function DesktopComingSoon() {
-  return (
-    <main className="desktop-only coming-screen" data-testid="desktop-coming-soon">
-      <div className="coming-inner">
-        <div className="coming-symbol" aria-hidden="true">A</div>
-        <h1 className="coming-title">Akhil</h1>
-        <p className="coming-copy">Full mobile experience coming to tablet &amp; desktop soon.</p>
-        <div className="coming-rule" aria-hidden="true" />
-      </div>
-    </main>
-  );
-}
-
 function useViewportClass() {
   const [viewport, setViewport] = useState<'mobile' | 'tablet' | 'desktop'>('mobile');
 
@@ -453,7 +441,11 @@ function App() {
   return (
     <>
       {viewport === 'desktop' ? (
-        <DesktopComingSoon />
+        <DesktopLayout
+          theme={theme}
+          onToggleTheme={() => setTheme((current) => current === 'light' ? 'dark' : 'light')}
+          homeContent={(onExplore) => <HomeScreen onExplore={onExplore} theme={theme} onToggleTheme={() => setTheme((current) => current === 'light' ? 'dark' : 'light')} />}
+        />
       ) : viewport === 'tablet' ? (
         <TabletLayout
           theme={theme}
