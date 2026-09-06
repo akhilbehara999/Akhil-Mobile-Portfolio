@@ -2587,3 +2587,51 @@
   .desktop-experience[data-theme='dark'] .tablet-rail-item, .desktop-experience[data-theme='dark'] .tablet-theme-toggle { color: #a99a90; }
   .desktop-experience[data-theme='dark'] .tablet-rail-item:hover, .desktop-experience[data-theme='dark'] .tablet-theme-toggle:hover, .desktop-experience[data-theme='dark'] .tablet-rail-item-active { color: #f0a060; background: rgba(224,112,32,.13); }
 }
+
+@media (min-width: 1025px) {
+  .desktop-experience .tablet-rail { width: 220px; flex-basis: 220px; }
+  .desktop-experience .tablet-rail-nav { display: flex; flex-direction: column; gap: 4px; margin-top: 30px; }
+  .desktop-experience .tablet-rail-item { display: flex; width: 100%; flex-direction: row; justify-content: flex-start; gap: 12px; padding: 11px 12px; }
+  .desktop-experience .tablet-theme-toggle { margin-top: auto; }
+  .desktop-experience .section-content { width: 100%; }
+  .desktop-experience .projects-section .project-list,
+  .desktop-experience .certificates-section .certificate-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .desktop-experience .project-card, .desktop-experience .certificate-card { min-height: 0; }
+  .desktop-experience .certificate-preview { height: 176px; }
+  .desktop-experience[data-theme='dark'] .workspace-screen,
+  .desktop-experience[data-theme='dark'] .section-screen,
+  .desktop-experience[data-theme='dark'] .contact-screen { color: #f0f0f0; background: #121212; }
+  .desktop-experience[data-theme='dark'] .tablet-rail { border-color: #2a2a2a; background: #161616; }
+  .desktop-experience[data-theme='dark'] .tablet-rail-item { color: #aaaaaa; }
+  .desktop-experience[data-theme='dark'] .tablet-rail-item:hover,
+  .desktop-experience[data-theme='dark'] .tablet-rail-item-active { color: #f0f0f0; background: #252525; }
+  .desktop-experience[data-theme='dark'] .workspace-heading-row h1,
+  .desktop-experience[data-theme='dark'] .section-header h1,
+  .desktop-experience[data-theme='dark'] .workspace-card-title,
+  .desktop-experience[data-theme='dark'] .project-card-title-row h2,
+  .desktop-experience[data-theme='dark'] .certificate-details h2,
+  .desktop-experience[data-theme='dark'] .education-card h2,
+  .desktop-experience[data-theme='dark'] .experience-heading-row h2 { color: #f0f0f0; }
+  .desktop-experience[data-theme='dark'] .workspace-description,
+  .desktop-experience[data-theme='dark'] .workspace-card-description,
+  .desktop-experience[data-theme='dark'] .project-short-description,
+  .desktop-experience[data-theme='dark'] .certificate-details p,
+  .desktop-experience[data-theme='dark'] .certificate-details > span,
+  .desktop-experience[data-theme='dark'] .education-grade,
+  .desktop-experience[data-theme='dark'] .education-institution,
+  .desktop-experience[data-theme='dark'] .experience-card li p { color: #aaaaaa; }
+  .desktop-experience[data-theme='dark'] .workspace-card,
+  .desktop-experience[data-theme='dark'] .project-card,
+  .desktop-experience[data-theme='dark'] .certificate-card,
+  .desktop-experience[data-theme='dark'] .education-card,
+  .desktop-experience[data-theme='dark'] .experience-card,
+  .desktop-experience[data-theme='dark'] .contact-form-card,
+  .desktop-experience[data-theme='dark'] .social-orbit-card { border-color: #2a2a2a; background: #1e1e1e; }
+  .desktop-experience[data-theme='dark'] .workspace-divider,
+  .desktop-experience[data-theme='dark'] .project-detail-divider { background: #2a2a2a; }
+  .desktop-experience[data-theme='dark'] .workspace-card-icon,
+  .desktop-experience[data-theme='dark'] .certificate-preview,
+  .desktop-experience[data-theme='dark'] .project-tags span { background: #252525; border-color: #3a3a3a; }
+  .desktop-experience[data-theme='dark'] input,
+  .desktop-experience[data-theme='dark'] textarea { color: #f0f0f0; border-color: #2a2a2a; background: #1e1e1e; }
+}
