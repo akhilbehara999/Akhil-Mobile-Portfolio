@@ -31,20 +31,9 @@ export function DesktopLayout({ theme, onToggleTheme, homeContent }: DesktopLayo
 
   return (
     <div className="desktop-experience" data-theme={theme} data-testid="desktop-experience">
-      <header className="desktop-window-bar">
-        <div className="desktop-window-brand">
-          <span className="desktop-window-mark" aria-hidden="true">A</span>
-          <span>Akhil Portfolio</span>
-        </div>
-        <div className="desktop-window-status"><span aria-hidden="true" /> Available for the right problem</div>
-        <div className="desktop-window-controls" aria-label="Window controls">
-          <span aria-hidden="true">—</span><span aria-hidden="true">□</span><span aria-hidden="true">×</span>
-        </div>
-      </header>
       <div className="desktop-app-body">
         <TabletSideRail screen={screen} theme={theme} onNavigate={navigate} onToggleTheme={onToggleTheme} />
         <div className="desktop-canvas">
-          <div className="desktop-breadcrumb">Akhil Portfolio <span>/</span> {screen === 'section' ? 'Workspace / Detail' : screen[0].toUpperCase() + screen.slice(1)}</div>
           <AnimatePresence mode="wait" initial={false}>
             {screen === 'home' ? (
               <Fragment key="desktop-home">{homeContent(() => navigate('workspace'))}</Fragment>
