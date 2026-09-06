@@ -32,7 +32,7 @@ export function DesktopLayout({ theme, onToggleTheme, homeContent }: DesktopLayo
   return (
     <div className="desktop-experience" data-theme={theme} data-testid="desktop-experience">
       <div className="desktop-app-body">
-        <TabletSideRail screen={screen} theme={theme} onNavigate={navigate} onToggleTheme={onToggleTheme} />
+        <TabletSideRail screen={screen} theme={theme} onNavigate={navigate} onToggleTheme={onToggleTheme} desktop />
         <div className="desktop-canvas">
           <AnimatePresence mode="wait" initial={false}>
             {screen === 'home' ? (

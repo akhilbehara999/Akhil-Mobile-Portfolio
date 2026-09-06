@@ -2557,7 +2557,6 @@
 
 @media (min-width: 1200px) {
   .desktop-experience { min-height: 100dvh; color: #1a1715; background: #eee9e4; }
-  .desktop-window-bar { display: flex; height: 46px; align-items: center; justify-content: space-between; border-bottom: 1px solid #ded6cf; padding: 0 20px; color: #706760; background: rgba(255,255,255,.86); font-size: 12px; }
   .desktop-window-brand, .desktop-window-status, .desktop-window-controls { display: flex; align-items: center; gap: 9px; }
   .desktop-window-brand { color: #3b302a; font-weight: 700; }
   .desktop-window-mark { display: grid; width: 24px; height: 24px; place-items: center; border-radius: 7px; color: #fff; background: #aa2222; font-family: 'Space Grotesk', sans-serif; font-size: 13px; }
@@ -2565,16 +2564,22 @@
   .desktop-window-controls { gap: 16px; color: #9a8d84; font-size: 15px; }
   .desktop-window-controls span:last-child { color: #aa2222; }
   .desktop-app-body { display: flex; min-height: 100dvh; }
-  .desktop-experience .tablet-rail { position: sticky; top: 0; display: flex; width: 184px; height: 100dvh; flex: 0 0 184px; flex-direction: column; border-right: 1px solid #ded6cf; padding: 26px 14px 18px; background: #f8f5f2; }
-  .desktop-experience .tablet-rail-nav { gap: 3px; margin-top: 30px; }
-  .desktop-experience .tablet-rail-item, .desktop-experience .tablet-theme-toggle { flex-direction: row; justify-content: flex-start; gap: 10px; border-radius: 9px; padding: 11px 12px; font-size: 13px; }
-  .desktop-experience .tablet-theme-toggle { margin-top: auto; }
-  .desktop-canvas { width: calc(100% - 184px); min-width: 0; overflow-x: hidden; }
-  .desktop-canvas .content-shell { width: min(100%, 1180px); padding: 16px 34px 42px; }
-  .desktop-canvas .hero-panel { padding: 38px 34px 34px; }
+  html, body, #root { min-height: 100%; margin: 0; }
+  .desktop-experience { height: 100dvh; overflow: hidden; }
+  .desktop-experience .tablet-rail { position: sticky; top: 0; display: flex; width: 220px; height: 100dvh; flex: 0 0 220px; flex-direction: column; border-right: 1px solid #ded6cf; padding: 24px 12px 18px; background: #f8f5f2; }
+  .desktop-experience .tablet-rail-brand { margin: 0 10px 20px; }
+  .desktop-experience .desktop-sidebar-nav { display: flex; flex-direction: column; gap: 4px; margin: 0; }
+  .desktop-experience .desktop-sidebar .tablet-rail-item { display: flex; width: 100%; flex-direction: row; justify-content: flex-start; gap: 12px; border-radius: 10px; padding: 11px 12px; font-size: 13px; }
+  .desktop-experience .desktop-sidebar .tablet-theme-toggle { display: none; }
+  .desktop-canvas { width: calc(100% - 220px); min-width: 0; height: 100dvh; overflow-y: auto; overflow-x: hidden; }
+  .desktop-canvas .content-shell { width: min(100%, 1180px); padding: 30px 40px 48px; }
+  .desktop-canvas .hero-panel { padding: 42px 40px 38px; }
   .desktop-canvas .hero-title { font-size: clamp(60px, 6vw, 92px); }
-  .desktop-canvas .workspace-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .desktop-canvas .workspace-card { min-height: 178px; padding: 18px; }
+  .desktop-canvas .workspace-screen { width: min(100%, 1080px); padding: 32px 40px 48px; }
+  .desktop-canvas .workspace-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .desktop-canvas .workspace-card { min-height: 190px; padding: 20px; }
+  .desktop-canvas .contact-screen, .desktop-canvas .section-screen { width: min(100%, 1080px); padding: 32px 40px 48px; }
+  .desktop-experience[data-theme='dark'] .desktop-sidebar .tablet-rail-item { color: #c9bbb1; }
   .desktop-experience[data-theme='dark'] { color-scheme: dark; color: #f8f5f2; background: #151210; }
   .desktop-experience[data-theme='dark'] .desktop-window-bar, .desktop-experience[data-theme='dark'] .tablet-rail { border-color: #3d322c; background: #211b18; }
   .desktop-experience[data-theme='dark'] .desktop-window-brand { color: #f8f5f2; }
